@@ -38,14 +38,10 @@ public class MouseLook : MonoBehaviour
 
     private void Look()
     {
-        print("look");
-
         _mouseLook = _input.Player.Look.ReadValue<Vector2>();
 
         _mouseX = _mouseLook.x * Time.deltaTime * _mouseSensivity;
         _mouseY = _mouseLook.y * Time.deltaTime * _mouseSensivity;
-
-        print(Input.mousePosition);
 
         _xRotation -= _mouseY;
         _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
