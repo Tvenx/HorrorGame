@@ -3,16 +3,19 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     private Controls _input;
+
     [SerializeField] private float _speed;
-    private CharacterController characterController;
-    private Vector2 _movement;
     [SerializeField] private float _jumpForce;
+
+    private CharacterController _characterController;
+    private Vector2 _movement;
+   
     float velocity;
 
     private void Awake()
     {
         _input = new Controls();
-        characterController = transform.gameObject.GetComponent<CharacterController>();
+        _characterController = transform.gameObject.GetComponent<CharacterController>();
     }
 
     private void OnEnable()
@@ -36,25 +39,21 @@ public class PlayerMove : MonoBehaviour
     {
         _movement = _input.Player.Move.ReadValue<Vector2>();
         Vector3 _moveDirection = (_movement.y * transform.forward + _movement.x * transform.right);
-        characterController.Move(_moveDirection * _speed * Time.deltaTime);
+        _characterController.Move(_moveDirection * _speed * Time.deltaTime);
     }
 
     private void GravityFall()
     {
-       
-
-            characterController.Move(Vector3.up * velocity * Time.deltaTime);
+        _characterController.Move(Vector3.up * velocity * Time.deltaTime);
         velocity += -10 * Time.deltaTime;
     }
 
     private void Jump()
     {
-
-        if (_input.Player.Jump.triggered && characterController.isGrounded)
+        if (_input.Player.Jump.triggered && _characterController.isGrounded)
         {
             velocity = _jumpForce;
         }
-       
     }
 
 }
