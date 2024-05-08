@@ -11,7 +11,22 @@ public class _PlayerInteractSystem: MonoBehaviour
     private _InteractObject _currentObject;
 
     public GameObject interactText;
-    
+
+    private Controls _inputControls;
+
+    private void Awake()
+    {
+        _inputControls = new Controls();
+    }
+
+    private void OnEnable()
+    {
+        _inputControls.Enable();
+    }
+    private void OnDisable()
+    {
+        _inputControls.Disable();
+    }
     void Update()
     {
         RayCastInteract();
@@ -43,7 +58,7 @@ public class _PlayerInteractSystem: MonoBehaviour
             interactText.SetActive(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (_inputControls.Player.Interacte.triggered)
         {
             _currentObject?.Interact();
         }
