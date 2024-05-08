@@ -8,7 +8,7 @@ public class _PlayerInteractSystem: MonoBehaviour
 
     private _InteractObject _currentObject;
 
-    public GameObject interactText;
+    [SerializeField] private TMP_Text interactText;
 
     private Controls _inputControls;
 
@@ -41,19 +41,16 @@ public class _PlayerInteractSystem: MonoBehaviour
             if(interactableObject != null && interactableObject != _currentObject)
             {
                 _currentObject = interactableObject;
-                interactText.SetActive(true);
-                TextMeshProUGUI textComponent = interactText.GetComponent<TextMeshProUGUI>();
-
-                if(textComponent != null)
-                {
-                    textComponent.text = _currentObject.GetInteractionText();
-                }
+                interactText.gameObject.SetActive(true);
+              
+                interactText.text = _currentObject.GetInteractionText();
+               
             }
         }
         else
         {
             _currentObject = null;
-            interactText.SetActive(false);
+            interactText.gameObject.SetActive(false);
         }
 
         if (_inputControls.Player.Interacte.triggered)
