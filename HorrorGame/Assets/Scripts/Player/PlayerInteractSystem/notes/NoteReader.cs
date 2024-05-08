@@ -13,6 +13,8 @@ public class NoteReader : MonoBehaviour
         _tittle.text = _noteData.tittle;
         _data.text = _noteData.data;
 
+        Time.timeScale = 0;
+
         Cursor.lockState = CursorLockMode.None;
 
         _notePanel.SetActive(true);
@@ -20,7 +22,9 @@ public class NoteReader : MonoBehaviour
 
     public void CloseNote()
     {
-        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 1;
+
+        Cursor.lockState = CursorLockMode.Locked;
 
         _notePanel.SetActive(false);
     }
