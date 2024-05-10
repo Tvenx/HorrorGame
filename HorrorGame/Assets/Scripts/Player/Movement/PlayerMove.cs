@@ -5,18 +5,20 @@ using System.Collections;
 public class PlayerMove : MonoBehaviour
 {
     private Controls _input;
-    private Animator _animatorPlayer;
 
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _crouchSpeed;
 
     private CharacterController _characterController;
-    private CapsuleCollider _capsuleCollider;
+
+    [SerializeField] private float _rayDistance;
+    [SerializeField] private LayerMask _ceiling;    // слой потолок 
 
     private Vector2 _movement;
 
     private bool _isCrouching = false;
+    private bool _dontUp = true;
     private float _originalMaxHeight;
     private float _minHeight = 1.0f;
     
@@ -26,7 +28,6 @@ public class PlayerMove : MonoBehaviour
     private void Awake()
     {
         _input = new Controls();
-        _capsuleCollider = GetComponent<CapsuleCollider>();
         _characterController = transform.gameObject.GetComponent<CharacterController>();
         _originalMaxHeight = _characterController.height;
     }
@@ -73,6 +74,17 @@ public class PlayerMove : MonoBehaviour
 
     private void Crouch()   //приседание
     {
+        Ray _ray = new Ray(transform.position, Vector3.up);     // луч (если своими словами, то он для проверки, если игрок в приседе и над ним низкий объект,то заблокировать выход из приседа.
+
+        if(Physics.Raycast(_ray, _rayDistance, _ceiling))
+        {
+            _dontUp = false;
+        }
+        else
+        {
+            _dontUp = true;
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             if (!_isCrouching)
@@ -80,12 +92,15 @@ public class PlayerMove : MonoBehaviour
                 StartCoroutine(CrouchCoroutine(_minHeight, _crouchSpeed)); // Рост в минимальное 
                
             }
-            else
+            else if(_isCrouching && _dontUp)
             {
                 StartCoroutine(StandUpCoroutine(_originalMaxHeight, _crouchSpeed)); //Возращает рост игрока
             }
         }
     }
+
+
+
 
 
     //коруутины
@@ -105,7 +120,7 @@ public class PlayerMove : MonoBehaviour
 
         _characterController.height = targetHeight;
         _isCrouching = true;
-        print("Присед");
+        print("ЛЕЖАТЬ");
     }
 
     IEnumerator StandUpCoroutine(float targetHeight, float duration)    //выход из приседа
@@ -128,6 +143,6 @@ public class PlayerMove : MonoBehaviour
 
         _characterController.height = targetHeight;
         _isCrouching = false;
-        print("Вставание");
+        print("ПОДЪЕМ");
     }
 }

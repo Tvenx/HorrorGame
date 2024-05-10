@@ -154,7 +154,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 2.5
   _jumpForce: 3
-  _crouchSpeed: 0.5
+  _crouchSpeed: 0.3
+  _rayDistance: 1
+  _ceiling:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!143 &95690398
 CharacterController:
   m_ObjectHideFlags: 0
@@ -196,7 +200,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -265,7 +269,7 @@ Transform:
   m_GameObject: {fileID: 95690396}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.103, z: 0}
+  m_LocalPosition: {x: 0, y: 1.103, z: -1.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1921,7 +1925,7 @@ GameObject:
   - component: {fileID: 1937789541}
   - component: {fileID: 1937789540}
   - component: {fileID: 1937789539}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Testing_Crouch
   m_TagString: Finish
   m_Icon: {fileID: 0}
