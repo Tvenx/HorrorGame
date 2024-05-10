@@ -56,6 +56,7 @@ public class _PlayerInteractSystem: MonoBehaviour
         if (_inputControls.Player.Interacte.triggered)
         {
             _currentObject?.Interact();
+            
         }
 
     }
