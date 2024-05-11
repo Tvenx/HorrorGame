@@ -51,9 +51,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jump",
+                    "name": "throw",
                     "type": "Button",
-                    "id": "3303d4a8-a4c6-4c39-ac8c-06b8713ada70",
+                    "id": "fc888d1f-fde1-457a-9688-cfdc311d8e9b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -239,34 +239,23 @@
                 },
                 {
                     "name": "",
-                    "id": "ee7b086f-fe6b-4555-88a9-85478d484157",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "cf28ef36-2966-4a9d-a761-94e971018383",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "046f3c28-9c1e-4f49-bc42-8d452ec038a8",
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Drop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c1d1c9bc-0e0f-4fa2-96b4-0e498024b4e0",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "throw",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

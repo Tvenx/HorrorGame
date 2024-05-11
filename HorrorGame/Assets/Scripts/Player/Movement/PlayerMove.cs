@@ -5,9 +5,9 @@ public class PlayerMove : MonoBehaviour
     private Controls _input;
 
     [SerializeField] private float _speed;
-    [SerializeField] private float _jumpForce;
 
     private CharacterController _characterController;
+    private EquipItem _equipItem;
     private Vector2 _movement;
    
     float velocity;
@@ -32,7 +32,6 @@ public class PlayerMove : MonoBehaviour
     {
         Walk();
         GravityFall();
-        Jump();
     }
 
     private void Walk()
@@ -47,13 +46,4 @@ public class PlayerMove : MonoBehaviour
         _characterController.Move(Vector3.up * velocity * Time.deltaTime);
         velocity += -10 * Time.deltaTime;
     }
-
-    private void Jump()
-    {
-        if (_input.Player.Jump.triggered && _characterController.isGrounded)
-        {
-            velocity = _jumpForce;
-        }
-    }
-
 }

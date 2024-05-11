@@ -7,6 +7,10 @@ public class EquipItem : MonoBehaviour
     [SerializeField] private GameObject _tool;
     [SerializeField] private Transform _toolParent;
 
+    [SerializeField] private float _throwForce;
+
+    private bool _isItemInHand = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,9 +20,17 @@ public class EquipItem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Q))
+        if (_isItemInHand == true)
         {
-            Drop();
+            if (Input.GetKey(KeyCode.Q))
+            {
+                Drop();
+            }
+            if (Input.GetKey(KeyCode.Space))
+            {
+
+                Throw(transform.forward * _throwForce);
+            }
         }
     }
 
@@ -28,6 +40,7 @@ public class EquipItem : MonoBehaviour
         _tool.transform.eulerAngles = new Vector3(_tool.transform.position.x, _tool.transform.position.z, _tool.transform.position.y);
         _tool.GetComponent<Rigidbody>().isKinematic = false;
         _tool.GetComponent<MeshCollider>().enabled = true;
+        _isItemInHand = false;
     }
 
     private void Equip()
@@ -36,9 +49,23 @@ public class EquipItem : MonoBehaviour
         _tool.transform.position = _toolParent.transform.position;
         _tool.transform.rotation = _toolParent.transform.rotation;
 
-        _tool.GetComponent<MeshCollider>().enabled= false;
+        _tool.GetComponent<MeshCollider>().enabled = false;
 
         _tool.transform.SetParent(_toolParent);
+        _isItemInHand = true;
+    }
+
+    public void Throw(Vector3 force)
+    {
+        transform.SetParent(null);
+        _tool.GetComponent<Rigidbody>().isKinematic = false;
+        _tool.GetComponent<MeshCollider>().enabled = true;
+
+        if (force.sqrMagnitude > 0f)
+        {
+            _tool.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+            _isItemInHand = false;
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -47,7 +74,7 @@ public class EquipItem : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.E))
             {
-               Equip();
+                Equip();
             }
         }
     }

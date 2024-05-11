@@ -73,9 +73,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Jump"",
+                    ""name"": ""throw"",
                     ""type"": ""Button"",
-                    ""id"": ""3303d4a8-a4c6-4c39-ac8c-06b8713ada70"",
+                    ""id"": ""fc888d1f-fde1-457a-9688-cfdc311d8e9b"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -261,34 +261,23 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ee7b086f-fe6b-4555-88a9-85478d484157"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""cf28ef36-2966-4a9d-a761-94e971018383"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""046f3c28-9c1e-4f49-bc42-8d452ec038a8"",
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Drop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c1d1c9bc-0e0f-4fa2-96b4-0e498024b4e0"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -304,7 +293,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Hit = m_Player.FindAction("Hit", throwIfNotFound: true);
         m_Player_Interacte = m_Player.FindAction("Interacte", throwIfNotFound: true);
         m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
-        m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_throw = m_Player.FindAction("throw", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -371,7 +360,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Hit;
     private readonly InputAction m_Player_Interacte;
     private readonly InputAction m_Player_Drop;
-    private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_throw;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -381,7 +370,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Hit => m_Wrapper.m_Player_Hit;
         public InputAction @Interacte => m_Wrapper.m_Player_Interacte;
         public InputAction @Drop => m_Wrapper.m_Player_Drop;
-        public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @throw => m_Wrapper.m_Player_throw;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -406,9 +395,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Drop.started += instance.OnDrop;
             @Drop.performed += instance.OnDrop;
             @Drop.canceled += instance.OnDrop;
-            @Jump.started += instance.OnJump;
-            @Jump.performed += instance.OnJump;
-            @Jump.canceled += instance.OnJump;
+            @throw.started += instance.OnThrow;
+            @throw.performed += instance.OnThrow;
+            @throw.canceled += instance.OnThrow;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -428,9 +417,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Drop.started -= instance.OnDrop;
             @Drop.performed -= instance.OnDrop;
             @Drop.canceled -= instance.OnDrop;
-            @Jump.started -= instance.OnJump;
-            @Jump.performed -= instance.OnJump;
-            @Jump.canceled -= instance.OnJump;
+            @throw.started -= instance.OnThrow;
+            @throw.performed -= instance.OnThrow;
+            @throw.canceled -= instance.OnThrow;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -455,6 +444,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnHit(InputAction.CallbackContext context);
         void OnInteracte(InputAction.CallbackContext context);
         void OnDrop(InputAction.CallbackContext context);
-        void OnJump(InputAction.CallbackContext context);
+        void OnThrow(InputAction.CallbackContext context);
     }
 }
