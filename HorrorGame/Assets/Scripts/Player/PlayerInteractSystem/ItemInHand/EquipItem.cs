@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -6,76 +5,75 @@ public class EquipItem : MonoBehaviour
 {
     [SerializeField] private GameObject _tool;
     [SerializeField] private Transform _toolParent;
-
     [SerializeField] private float _throwForce;
+
+    private Rigidbody _rigidbody;
 
     private bool _isItemInHand = false;
 
-    // Start is called before the first frame update
-    void Start()
+    private Controls _inputControls;
+
+    private void Awake()
     {
-        _tool.GetComponent<Rigidbody>().isKinematic = true;
+        _inputControls = new Controls();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
+    {
+        _inputControls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _inputControls.Disable();
+    }
+
+    private void Start()
+    {
+        _rigidbody = _tool.GetComponent<Rigidbody>();
+
+        _rigidbody.isKinematic = true;
+    }
+
+    private void Update()
     {
         if (_isItemInHand == true)
         {
-            if (Input.GetKey(KeyCode.Q))
-            {
+            if (_inputControls.Player.Drop.triggered)
                 Drop();
-            }
-            if (Input.GetKey(KeyCode.Space))
-            {
-
-                Throw(transform.forward * _throwForce);
-            }
+      
+            if (_inputControls.Player.Throw.triggered)
+                Throw(_throwForce);
         }
     }
 
     private void Drop()
     {
-        _toolParent.DetachChildren();
-        _tool.transform.eulerAngles = new Vector3(_tool.transform.position.x, _tool.transform.position.z, _tool.transform.position.y);
-        _tool.GetComponent<Rigidbody>().isKinematic = false;
-        _tool.GetComponent<MeshCollider>().enabled = true;
+        transform.SetParent(null);
+       
+        _rigidbody.isKinematic = false;
+
         _isItemInHand = false;
     }
 
-    private void Equip()
+    public void Equip()
     {
-        _tool.GetComponent<Rigidbody>().isKinematic = true;
+       _rigidbody.isKinematic = true;
+
         _tool.transform.position = _toolParent.transform.position;
         _tool.transform.rotation = _toolParent.transform.rotation;
-
-        _tool.GetComponent<MeshCollider>().enabled = false;
 
         _tool.transform.SetParent(_toolParent);
         _isItemInHand = true;
     }
 
-    public void Throw(Vector3 force)
+    public void Throw(float force)
     {
         transform.SetParent(null);
+
         _tool.GetComponent<Rigidbody>().isKinematic = false;
-        _tool.GetComponent<MeshCollider>().enabled = true;
-
-        if (force.sqrMagnitude > 0f)
-        {
-            _tool.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
-            _isItemInHand = false;
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            if (Input.GetKey(KeyCode.E))
-            {
-                Equip();
-            }
-        }
+     
+         _rigidbody.AddForce(transform.forward * force, ForceMode.Impulse);
+        _isItemInHand = false;
     }
 }
