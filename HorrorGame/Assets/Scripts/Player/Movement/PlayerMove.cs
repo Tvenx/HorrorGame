@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -15,8 +16,11 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float _rayDistance;
     [SerializeField] private LayerMask _ceiling;    // слой потолок 
 
+    private StaminaPlayer _staminaPlayer;   // ласс стамина выносливости
+
     private Vector2 _movement;
 
+    private bool _running = true;
     private bool _isCrouching = false;
     private bool _dontUp = true;
     private float _originalMaxHeight;
@@ -30,6 +34,7 @@ public class PlayerMove : MonoBehaviour
         _input = new Controls();
         _characterController = transform.gameObject.GetComponent<CharacterController>();
         _originalMaxHeight = _characterController.height;
+        _staminaPlayer = GetComponent<StaminaPlayer>();
     }
 
     private void OnEnable()
@@ -41,13 +46,13 @@ public class PlayerMove : MonoBehaviour
     {
         _input.Disable();
     }
-
-    private void Update()
+    private void Update() 
     {
         Walk();
         GravityFall();
         Jump();
         Crouch();
+        Run();
     }
 
     private void Walk()
@@ -55,6 +60,7 @@ public class PlayerMove : MonoBehaviour
         _movement = _input.Player.Move.ReadValue<Vector2>();
         Vector3 _moveDirection = (_movement.y * transform.forward + _movement.x * transform.right);
         _characterController.Move(_moveDirection * _speed * Time.deltaTime);
+        
     }
 
     private void GravityFall()
@@ -72,9 +78,32 @@ public class PlayerMove : MonoBehaviour
     }
 
 
+    private void Run()
+    {
+        if (_running)
+        {
+            if (Input.GetKey(KeyCode.LeftShift) && _staminaPlayer._lowPower)
+            {
+                _staminaPlayer.ExpencePower();
+                _movement = _input.Player.Move.ReadValue<Vector2>();
+                Vector3 _moveDirection = (_movement.y * transform.forward + _movement.x * transform.right);
+                _characterController.Move(_moveDirection * _speed * 4 * Time.deltaTime);    //скорость увеличиваетс€ на 4
+                print("Shift «ажат");
+            }
+
+            if (!Input.GetKey(KeyCode.LeftShift) || !_staminaPlayer._lowPower)
+            {
+                print("Shift отпущен");
+                _staminaPlayer.UpPower();
+            }
+
+        }
+    }
+
+
     private void Crouch()   //приседание
     {
-        Ray _ray = new Ray(transform.position, Vector3.up);     // луч (если своими словами, то он дл€ проверки, если игрок в приседе и над ним низкий объект,то заблокировать выход из приседа.
+        Ray _ray = new Ray(transform.position, Vector3.up);     // луч (если своими словами, то он дл€ проверки, если игрок в приседе и под низким объектом,то заблокировать выход из приседа.
 
         if(Physics.Raycast(_ray, _rayDistance, _ceiling))
         {
@@ -89,12 +118,15 @@ public class PlayerMove : MonoBehaviour
         {
             if (!_isCrouching)
             {
-                StartCoroutine(CrouchCoroutine(_minHeight, _crouchSpeed)); // –ост в минимальное 
-               
+                StartCoroutine(CrouchCoroutine(_minHeight, _crouchSpeed)); // –ост в минимальное
+                _running = false;
+
+
             }
             else if(_isCrouching && _dontUp)
             {
                 StartCoroutine(StandUpCoroutine(_originalMaxHeight, _crouchSpeed)); //¬озращает рост игрока
+                _running = true;
             }
         }
     }
