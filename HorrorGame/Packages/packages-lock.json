@@ -61,6 +61,7 @@
       },
       "url": "https://packages.unity.com"
     },
+<<<<<<< HEAD
     "com.unity.inputsystem": {
       "version": "1.7.0",
       "depth": 0,
@@ -70,6 +71,8 @@
       },
       "url": "https://packages.unity.com"
     },
+=======
+>>>>>>> main
     "com.unity.performance.profile-analyzer": {
       "version": "1.2.2",
       "depth": 1,
