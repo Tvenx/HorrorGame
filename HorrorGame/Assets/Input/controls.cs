@@ -73,7 +73,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""throw"",
+                    ""name"": ""Throw"",
                     ""type"": ""Button"",
                     ""id"": ""fc888d1f-fde1-457a-9688-cfdc311d8e9b"",
                     ""expectedControlType"": ""Button"",
@@ -277,7 +277,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""throw"",
+                    ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -293,7 +293,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Hit = m_Player.FindAction("Hit", throwIfNotFound: true);
         m_Player_Interacte = m_Player.FindAction("Interacte", throwIfNotFound: true);
         m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
-        m_Player_throw = m_Player.FindAction("throw", throwIfNotFound: true);
+        m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -360,7 +360,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Hit;
     private readonly InputAction m_Player_Interacte;
     private readonly InputAction m_Player_Drop;
-    private readonly InputAction m_Player_throw;
+    private readonly InputAction m_Player_Throw;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -370,7 +370,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Hit => m_Wrapper.m_Player_Hit;
         public InputAction @Interacte => m_Wrapper.m_Player_Interacte;
         public InputAction @Drop => m_Wrapper.m_Player_Drop;
-        public InputAction @throw => m_Wrapper.m_Player_throw;
+        public InputAction @Throw => m_Wrapper.m_Player_Throw;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -395,9 +395,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Drop.started += instance.OnDrop;
             @Drop.performed += instance.OnDrop;
             @Drop.canceled += instance.OnDrop;
-            @throw.started += instance.OnThrow;
-            @throw.performed += instance.OnThrow;
-            @throw.canceled += instance.OnThrow;
+            @Throw.started += instance.OnThrow;
+            @Throw.performed += instance.OnThrow;
+            @Throw.canceled += instance.OnThrow;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -417,9 +417,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Drop.started -= instance.OnDrop;
             @Drop.performed -= instance.OnDrop;
             @Drop.canceled -= instance.OnDrop;
-            @throw.started -= instance.OnThrow;
-            @throw.performed -= instance.OnThrow;
-            @throw.canceled -= instance.OnThrow;
+            @Throw.started -= instance.OnThrow;
+            @Throw.performed -= instance.OnThrow;
+            @Throw.canceled -= instance.OnThrow;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
