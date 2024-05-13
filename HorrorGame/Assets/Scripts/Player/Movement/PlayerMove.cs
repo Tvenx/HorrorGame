@@ -50,7 +50,6 @@ public class PlayerMove : MonoBehaviour
     {
         Walk();
         GravityFall();
-        Jump();
         Crouch();
         Run();
     }
@@ -67,14 +66,6 @@ public class PlayerMove : MonoBehaviour
     {
         _characterController.Move(Vector3.up * velocity * Time.deltaTime);
         velocity += -10 * Time.deltaTime;
-    }
-
-    private void Jump()
-    {
-        if (_input.Player.Jump.triggered && _characterController.isGrounded)
-        {
-            velocity = _jumpForce;
-        }
     }
 
 
