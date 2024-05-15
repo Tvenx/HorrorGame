@@ -14,11 +14,7 @@ public class StaminaPlayer : MonoBehaviour
     public float _Energy
     {
         get { return _energy; }
-        set
-        {
-            _energy = Mathf.Clamp(value, 0, _maxEnergy);
-
-        }
+        set { _energy = Mathf.Clamp(value, 0, _maxEnergy);}
     }
 
     private void Start()

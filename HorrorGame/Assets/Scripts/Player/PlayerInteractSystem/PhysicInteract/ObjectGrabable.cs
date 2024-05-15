@@ -14,12 +14,14 @@ public class ObjectGrabable : MonoBehaviour
     }
     public void Grab(Transform objectGrabPointTransform)
     {
+        transform.GetComponent<_InteractObject>().enabled = false;
         this.objectGrabPointTransform = objectGrabPointTransform;
         _objectRigidbody.useGravity = false;
     }
 
     public void Drop()
     {
+        transform.GetComponent<_InteractObject>().enabled = true;
         this.objectGrabPointTransform = null;
         _objectRigidbody.useGravity = true;
     }

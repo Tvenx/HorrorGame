@@ -13,11 +13,11 @@ public class WallClimb : MonoBehaviour
     {
         vaultLayer = LayerMask.NameToLayer("VaultLayer");
         vaultLayer = ~vaultLayer;
+        _camera = Camera.main;
     }
 
     private void Update()
     {
-        _camera = Camera.main;
         Vault();
     }
 
@@ -37,6 +37,7 @@ public class WallClimb : MonoBehaviour
         }
 
     }
+
     IEnumerator LerpVault(Vector3 targetPosition, float duration)
     {
         float time = 0;
