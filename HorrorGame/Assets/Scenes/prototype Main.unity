@@ -350,7 +350,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca294efc3bbc60f48ad7ce7a11fe9c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 2.5
+  _walkSpeed: 2.5
+  _runSpeed: 7
   _jumpForce: 3
   _crouchSpeed: 0.3
   _rayDistance: 1
@@ -487,7 +488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sliderForPower: {fileID: 59077526}
-  _max: 50
+  _maxEnergy: 50
 --- !u!114 &95690404
 MonoBehaviour:
   m_ObjectHideFlags: 0

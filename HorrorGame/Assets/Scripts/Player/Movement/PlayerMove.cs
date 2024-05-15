@@ -6,21 +6,22 @@ using Unity.VisualScripting;
 public class PlayerMove : MonoBehaviour
 {
     private Controls _input;
+    bool _running;
 
-    [SerializeField] private float _speed;
+    private float _speed;
+    [SerializeField] private float _walkSpeed;
+    [SerializeField] private float _runSpeed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _crouchSpeed;
 
     private CharacterController _characterController;
 
-    [SerializeField] private float _rayDistance;
-    [SerializeField] private LayerMask _ceiling;    // слой потолок 
+   
 
     private StaminaPlayer _staminaPlayer;   //Класс стамина выносливости
 
     private Vector2 _movement;
 
-    private bool _running = true;
     private bool _isCrouching = false;
     private bool _dontUp = true;
     private float _originalMaxHeight;
@@ -32,9 +33,12 @@ public class PlayerMove : MonoBehaviour
     private void Awake()
     {
         _input = new Controls();
+
         _characterController = transform.gameObject.GetComponent<CharacterController>();
         _originalMaxHeight = _characterController.height;
         _staminaPlayer = GetComponent<StaminaPlayer>();
+
+        _speed = _walkSpeed;
     }
 
     private void OnEnable()
@@ -48,13 +52,13 @@ public class PlayerMove : MonoBehaviour
     }
     private void Update() 
     {
-        Walk();
+        Move();
         GravityFall();
         Crouch();
         Run();
     }
 
-    private void Walk()
+    private void Move()
     {
         _movement = _input.Player.Move.ReadValue<Vector2>();
         Vector3 _moveDirection = (_movement.y * transform.forward + _movement.x * transform.right);
@@ -71,60 +75,40 @@ public class PlayerMove : MonoBehaviour
 
     private void Run()
     {
-      
-            if (Input.GetKey(KeyCode.LeftShift) && _staminaPlayer.CanRun())
+            if (_input.Player.Run.IsPressed() && _staminaPlayer.CanRun() && !_isCrouching)
             {
-            print(_staminaPlayer.CanRun());
                 _staminaPlayer.LowEnergy();
-                _movement = _input.Player.Move.ReadValue<Vector2>();
-                Vector3 _moveDirection = (_movement.y * transform.forward + _movement.x * transform.right);
-                _characterController.Move(_moveDirection * _speed * 4 * Time.deltaTime);    //скорость увеличивается на 4
-                print("Shift Зажат");
+                _speed = _runSpeed;
             }
             else
             {
-                 print("Shift отпущен");
+                 _speed = _walkSpeed;
                 _staminaPlayer.UpEnergy();
             }
-
     }
 
 
     private void Crouch()   //приседание
     {
-        Ray _ray = new Ray(transform.position, Vector3.up);     // луч (если своими словами, то он для проверки, если игрок в приседе и под низким объектом,то заблокировать выход из приседа.
-
-        if(Physics.Raycast(_ray, _rayDistance, _ceiling))
-        {
-            _dontUp = false;
-        }
-        else
-        {
-            _dontUp = true;
-        }
-
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             if (!_isCrouching)
             {
-                StartCoroutine(CrouchCoroutine(_minHeight, _crouchSpeed)); // Рост в минимальное
+                StartCoroutine(CrouchCoroutine(_minHeight, _crouchSpeed)); 
                 _running = false;
-
-
             }
-            else if(_isCrouching && _dontUp)
+            else
             {
-                StartCoroutine(StandUpCoroutine(_originalMaxHeight, _crouchSpeed)); //Возращает рост игрока
-                _running = true;
-            }
+                Ray _ray = new Ray(transform.position, Vector3.up);
+                RaycastHit hit;
+                if (!Physics.Raycast(_ray, out hit, _minHeight))
+                {
+                    StartCoroutine(StandUpCoroutine(_originalMaxHeight, _crouchSpeed)); 
+                    _running = true;
+                }
+            }  
         }
     }
-
-
-
-
-
-    //коруутины
 
     private IEnumerator CrouchCoroutine(float targetHeight, float duration) //присед
     {
