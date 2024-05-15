@@ -1,12 +1,9 @@
-using NUnit.Framework;
 using UnityEngine;
 using System.Collections;
-using Unity.VisualScripting;
 
 public class PlayerMove : MonoBehaviour
 {
     private Controls _input;
-    bool _running;
 
     private float _speed;
     [SerializeField] private float _walkSpeed;
@@ -14,20 +11,16 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _crouchSpeed;
 
-    private CharacterController _characterController;
+    private CharacterController _characterController;   
 
-   
-
-    private StaminaPlayer _staminaPlayer;   //Класс стамина выносливости
+    private StaminaPlayer _staminaPlayer;  
 
     private Vector2 _movement;
 
     private bool _isCrouching = false;
-    private bool _dontUp = true;
     private float _originalMaxHeight;
     private float _minHeight = 1.0f;
     
-
     float velocity;
 
     private void Awake()
@@ -90,27 +83,26 @@ public class PlayerMove : MonoBehaviour
 
     private void Crouch()   //приседание
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (_input.Player.Crouch.triggered)
         {
             if (!_isCrouching)
             {
-                StartCoroutine(CrouchCoroutine(_minHeight, _crouchSpeed)); 
-                _running = false;
+                StartCoroutine(SetHeight(_minHeight, _crouchSpeed)); 
+                _isCrouching = true;
             }
             else
             {
                 Ray _ray = new Ray(transform.position, Vector3.up);
-                RaycastHit hit;
-                if (!Physics.Raycast(_ray, out hit, _minHeight))
+                if (!Physics.Raycast(_ray, _minHeight))
                 {
-                    StartCoroutine(StandUpCoroutine(_originalMaxHeight, _crouchSpeed)); 
-                    _running = true;
+                    StartCoroutine(SetHeight(_originalMaxHeight, _crouchSpeed)); 
+                    _isCrouching = false;
                 }
             }  
         }
     }
 
-    private IEnumerator CrouchCoroutine(float targetHeight, float duration) //присед
+    private IEnumerator SetHeight(float targetHeight, float duration) //присед
     {
         float time = 0f;
         float startHeight = _characterController.height;
@@ -122,32 +114,6 @@ public class PlayerMove : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
-
         _characterController.height = targetHeight;
-        _isCrouching = true;
-        print("ЛЕЖАТЬ");
-    }
-
-    IEnumerator StandUpCoroutine(float targetHeight, float duration)    //выход из приседа
-    {
-        float time = 0f;
-        float startHeight = _characterController.height;
-        Vector3 startPosition = transform.position + Vector3.up * (_originalMaxHeight - startHeight) / 2f;
-
-        while (time < duration)
-        {
-            float newHeight = Mathf.Lerp(startHeight, targetHeight, time / duration);
-            Vector3 newPosition = startPosition - Vector3.up * (_originalMaxHeight - newHeight) / 2f;
-
-            _characterController.height = newHeight;
-            transform.position = newPosition;
-
-            time += Time.deltaTime;
-            yield return null;
-        }
-
-        _characterController.height = targetHeight;
-        _isCrouching = false;
-        print("ПОДЪЕМ");
     }
 }
