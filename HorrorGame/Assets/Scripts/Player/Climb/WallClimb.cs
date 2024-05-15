@@ -5,27 +5,30 @@ using UnityEngine;
 public class WallClimb : MonoBehaviour
 {
     private int vaultLayer;
-    public Camera cam;
+    private Camera _camera;
     private float playerHeight = 2f;
     private float playerRadius = 0.5f;
+
     void Start()
     {
         vaultLayer = LayerMask.NameToLayer("VaultLayer");
         vaultLayer = ~vaultLayer;
     }
 
-    void Update()
+    private void Update()
     {
+        _camera = Camera.main;
         Vault();
     }
+
     private void Vault()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var firstHit, 1f, vaultLayer))
+            if (Physics.Raycast(_camera.transform.position, _camera.transform.forward, out var firstHit, 1f, vaultLayer))
             {
                 print("vaultable in front");
-                if (Physics.Raycast(firstHit.point + (cam.transform.forward * playerRadius) + (Vector3.up * 0.6f * playerHeight), Vector3.down, out var secondHit, playerHeight))
+                if (Physics.Raycast(firstHit.point + (_camera.transform.forward * playerRadius) + (Vector3.up * 0.6f * playerHeight), Vector3.down, out var secondHit, playerHeight))
                 {
                     print("found place to land");
                     StartCoroutine(LerpVault(secondHit.point, 0.5f));

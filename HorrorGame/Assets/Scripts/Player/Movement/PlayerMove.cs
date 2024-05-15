@@ -71,24 +71,22 @@ public class PlayerMove : MonoBehaviour
 
     private void Run()
     {
-        if (_running)
-        {
-            if (Input.GetKey(KeyCode.LeftShift) && _staminaPlayer._lowPower)
+      
+            if (Input.GetKey(KeyCode.LeftShift) && _staminaPlayer.CanRun())
             {
-                _staminaPlayer.ExpencePower();
+            print(_staminaPlayer.CanRun());
+                _staminaPlayer.LowEnergy();
                 _movement = _input.Player.Move.ReadValue<Vector2>();
                 Vector3 _moveDirection = (_movement.y * transform.forward + _movement.x * transform.right);
                 _characterController.Move(_moveDirection * _speed * 4 * Time.deltaTime);    //скорость увеличивается на 4
                 print("Shift Зажат");
             }
-
-            if (!Input.GetKey(KeyCode.LeftShift) || !_staminaPlayer._lowPower)
+            else
             {
-                print("Shift отпущен");
-                _staminaPlayer.UpPower();
+                 print("Shift отпущен");
+                _staminaPlayer.UpEnergy();
             }
 
-        }
     }
 
 

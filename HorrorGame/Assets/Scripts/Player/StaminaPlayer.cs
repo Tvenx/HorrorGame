@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,47 +5,46 @@ public class StaminaPlayer : MonoBehaviour
 {
     [SerializeField] private Slider _sliderForPower;
 
-    private float _max = 50f;
-    private float _power;
-    public bool _lowPower;
-    private bool _wait;
+    [SerializeField] private float _maxEnergy = 50f;
+    
+    private const float _energyDownStep = 25.5f;
+    private const float _energyUpStep = 2.5f;
+
+    private float _energy;
+    public float _Energy
+    {
+        get { return _energy; }
+        set
+        {
+            _energy = Mathf.Clamp(value, 0, _maxEnergy);
+
+        }
+    }
 
     private void Start()
     {
-        _power = _max;
-        _wait = true;
-        _lowPower = true;
+        _Energy = _maxEnergy;
     }
 
-    public void ExpencePower()  //расход энергии
+    public void LowEnergy()  //расход энергии
     {
-        if(_power > 0f && _lowPower)
-        {
-            _power -= 25.5f * Time.deltaTime;
-            _sliderForPower.value = _power;
-        }
-        else
-        {
-            _lowPower = false;
-            _wait = false;
-        }
+            print("понижаем энергию");
+            _Energy -= _energyDownStep * Time.deltaTime;
+            _sliderForPower.value = _energy;
     }
-    public void UpPower()
+
+    public void UpEnergy()
     {
-        if(_power < _max && _wait)
+            _Energy += _energyUpStep * Time.deltaTime;
+            _sliderForPower.value = _Energy;
+    }
+
+    public bool CanRun()
+    {
+        if (_energy <= 1f)
         {
-            _power += 5.5f * Time.deltaTime;
-            _sliderForPower.value = _power;
+            return false;
         }
-        if (_power <= 5f)
-        {
-            _power += 2.5f * Time.deltaTime;
-            _sliderForPower.value = _power;
-            if(_power >= 5f)
-            {
-                _lowPower = true;
-                _wait = true;
-            }
-        }
+        return true;
     }
 }
