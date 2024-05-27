@@ -47,11 +47,7 @@ public class _PlayerInteractSystem: MonoBehaviour
                 interactText.gameObject.SetActive(true);
               
                 interactText.text = _currentObject.GetInteractionHint();
-
-                
-
-            }
-           
+            } 
         }
         else
         {
@@ -62,6 +58,8 @@ public class _PlayerInteractSystem: MonoBehaviour
         if (_inputControls.Player.Interacte.triggered)
         {
             Iitem _itemInHand = transform.GetComponentInChildren<Iitem>();
+
+            interactText.gameObject.SetActive(false);
 
             if (_itemInHand == null)
             {
