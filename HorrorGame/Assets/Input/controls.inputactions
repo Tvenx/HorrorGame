@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Hit",
+                    "name": "UseItem",
                     "type": "Button",
                     "id": "672d0a38-60f5-43b1-bea1-da0fc4842b42",
                     "expectedControlType": "Button",
@@ -218,7 +218,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Hit",
+                    "action": "UseItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -229,7 +229,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Hit",
+                    "action": "UseItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
