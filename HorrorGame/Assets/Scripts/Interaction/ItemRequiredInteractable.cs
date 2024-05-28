@@ -25,6 +25,13 @@ public class ItemRequiredInteractable : MonoBehaviour, Iinteractable
     {
         print(item.ID);
         if(item.ID == _keyId)
-        _onInteractWith.Invoke();
+        {
+            _onInteractWith.Invoke();
+        }
+        else
+        {
+            Interact();
+        }
+       
     }
 }

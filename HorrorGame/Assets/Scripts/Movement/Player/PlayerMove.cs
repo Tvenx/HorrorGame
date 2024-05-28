@@ -19,8 +19,10 @@ public class PlayerMove : MonoBehaviour
 
     private bool _isCrouching = false;
     private float _originalMaxHeight;
-    private float _minHeight = 1.0f;
-    
+    private float _crouchHeight = 1.0f;
+    float _characterHeight;
+
+
     float velocity;
 
     private void Awake()
@@ -32,6 +34,7 @@ public class PlayerMove : MonoBehaviour
         _staminaPlayer = GetComponent<StaminaPlayer>();
 
         _speed = _walkSpeed;
+        _characterHeight = _characterController.height;
     }
 
     private void OnEnable()
@@ -87,13 +90,13 @@ public class PlayerMove : MonoBehaviour
         {
             if (!_isCrouching)
             {
-                StartCoroutine(SetHeight(_minHeight, _crouchSpeed)); 
+                StartCoroutine(SetHeight(_crouchHeight, _crouchSpeed)); 
                 _isCrouching = true;
             }
             else
             {
                 Ray _ray = new Ray(transform.position, Vector3.up);
-                if (!Physics.Raycast(_ray, _minHeight))
+                if (!Physics.Raycast(_ray, _characterHeight - _crouchHeight))
                 {
                     StartCoroutine(SetHeight(_originalMaxHeight, _crouchSpeed)); 
                     _isCrouching = false;
