@@ -96,7 +96,7 @@ public class PlayerMove : MonoBehaviour
             else
             {
                 Ray _ray = new Ray(transform.position, Vector3.up);
-                if (!Physics.Raycast(_ray, _characterHeight - _crouchHeight))
+                if (!Physics.Raycast(_ray, _characterHeight - _crouchHeight + 0.4f)) //исправить это надо будет обязательно
                 {
                     StartCoroutine(SetHeight(_originalMaxHeight, _crouchSpeed)); 
                     _isCrouching = false;
@@ -104,7 +104,7 @@ public class PlayerMove : MonoBehaviour
             }  
         }
     }
-
+    //к этому тоже много вопросов
     private IEnumerator SetHeight(float targetHeight, float duration) //присед
     {
         float time = 0f;
