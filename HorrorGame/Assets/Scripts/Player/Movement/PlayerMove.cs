@@ -8,6 +8,7 @@ public class PlayerMove : MonoBehaviour
     private Controls _input;
 
     [SerializeField] private float _speed;
+    [SerializeField] private float _jumpForce;
     [SerializeField] private float _crouchSpeed;
 
     private CharacterController _characterController;
@@ -20,7 +21,6 @@ public class PlayerMove : MonoBehaviour
     private Vector2 _movement;
 
     private bool _running = true;
-    private bool _scaleStamina = true;
     private bool _isCrouching = false;
     private bool _dontUp = true;
     private float _originalMaxHeight;
@@ -71,9 +71,9 @@ public class PlayerMove : MonoBehaviour
 
     private void Run()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && _staminaPlayer._lowPower && _running)
+        if (_running)
         {
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+            if (Input.GetKey(KeyCode.LeftShift) && _staminaPlayer._lowPower)
             {
                 _staminaPlayer.ExpencePower();
                 _movement = _input.Player.Move.ReadValue<Vector2>();
@@ -81,18 +81,13 @@ public class PlayerMove : MonoBehaviour
                 _characterController.Move(_moveDirection * _speed * 4 * Time.deltaTime);    //скорость увеличивается на 4
                 print("Shift Зажат");
             }
-        }
-        else
-        {
-            _staminaPlayer.UpPower();
-        }
 
+            if (!Input.GetKey(KeyCode.LeftShift) || !_staminaPlayer._lowPower)
+            {
+                print("Shift отпущен");
+                _staminaPlayer.UpPower();
+            }
 
-        if ((!Input.GetKey(KeyCode.LeftShift) && !_scaleStamina) || !_staminaPlayer._lowPower || (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D)))
-
-        {
-            print("Shift отпущен");
-            _staminaPlayer.UpPower();
         }
     }
 
@@ -104,12 +99,10 @@ public class PlayerMove : MonoBehaviour
         if(Physics.Raycast(_ray, _rayDistance, _ceiling))
         {
             _dontUp = false;
-            _scaleStamina = false;
         }
         else
         {
             _dontUp = true;
-            _scaleStamina = true;
         }
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
@@ -118,6 +111,7 @@ public class PlayerMove : MonoBehaviour
             {
                 StartCoroutine(CrouchCoroutine(_minHeight, _crouchSpeed)); // Рост в минимальное
                 _running = false;
+
 
             }
             else if(_isCrouching && _dontUp)
