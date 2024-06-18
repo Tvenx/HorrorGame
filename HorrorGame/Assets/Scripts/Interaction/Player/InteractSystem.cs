@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class _PlayerInteractSystem: MonoBehaviour
+public class InteractSystem: MonoBehaviour
 {
     [SerializeField] private Camera _playerCamera;
     [SerializeField] private float _interactDistance;
@@ -9,23 +9,10 @@ public class _PlayerInteractSystem: MonoBehaviour
     [SerializeField] private TMP_Text interactText;
 
     private Iinteractable _currentObject;
-
-    private Controls _inputControls;
     
     private void Awake()
     {
-        _inputControls = new Controls();
         _playerCamera = Camera.main;
-    }
-
-    private void OnEnable()
-    {
-        _inputControls.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _inputControls.Disable();
     }
 
     void Update()
@@ -54,23 +41,10 @@ public class _PlayerInteractSystem: MonoBehaviour
             _currentObject = null;
             interactText.gameObject.SetActive(false);
         }
+    }
 
-        if (_inputControls.Player.Interacte.triggered)
-        {
-            Iitem _itemInHand = transform.GetComponentInChildren<Iitem>();
-
-            interactText.gameObject.SetActive(false);
-
-            if (_itemInHand == null)
-            {
-                _currentObject?.Interact();
-            }
-            else
-            {
-                _currentObject?.InteractWith(_itemInHand);
-                print(_itemInHand);
-            }
-        }
-
+    public void Interact()
+    {
+      
     }
 }

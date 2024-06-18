@@ -7,7 +7,7 @@ public class EquipItem : MonoBehaviour
     [SerializeField] private Transform _toolParent;
     [SerializeField] private float _throwForce;
 
-    private Rigidbody _rigidbody;
+   /* private Rigidbody _rigidbody;
 
     private bool _isItemInHand = false;
 
@@ -71,9 +71,10 @@ public class EquipItem : MonoBehaviour
     {
         transform.SetParent(null);
 
+
         _tool.GetComponent<Rigidbody>().isKinematic = false;
      
          _rigidbody.AddForce(transform.forward * force, ForceMode.Impulse);
         _isItemInHand = false;
-    }
+    }*/
 }

@@ -42,7 +42,16 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Drop",
+                    "name": "EquipItem",
+                    "type": "Button",
+                    "id": "1f17b1ac-2bdd-48fd-9c13-c5af3df6a928",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DropItem",
                     "type": "Button",
                     "id": "b8b9e6e7-e1fe-404a-8fa4-14f0d3e21edf",
                     "expectedControlType": "Button",
@@ -51,7 +60,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Throw",
+                    "name": "ThrowItem",
                     "type": "Button",
                     "id": "fc888d1f-fde1-457a-9688-cfdc311d8e9b",
                     "expectedControlType": "Button",
@@ -65,7 +74,7 @@
                     "id": "3c0e04b5-6742-4f51-a7e5-5b17634c761a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -262,7 +271,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Drop",
+                    "action": "DropItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -273,7 +282,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Throw",
+                    "action": "ThrowItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -296,6 +305,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "63223f6b-3753-4c4f-9407-17c40ef0b12a",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EquipItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0721b3e2-2829-4f10-884b-877c863bf239",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EquipItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
