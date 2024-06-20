@@ -1,32 +1,40 @@
 using UnityEngine;
 
-public class Key : MonoBehaviour, Iitem
+public class Key : MonoBehaviour, Iusable
 {
-    [SerializeField] private string _id;
+  //  [SerializeField] private string _id;
 
-    public string ID
-    {
-        get { return _id; }
-        set {}
-    }
+    [SerializeField] private float _distanceToDoor;
 
-    public void Drop()
-    {
-        throw new System.NotImplementedException();
-    }
+    private Camera _playerCamera;
 
-    public void Equip(Transform _toolParent)
-    {
-        throw new System.NotImplementedException();
-    }
+    private int _layerNumber = 9;
+    private int _layerMask;
 
-    public void Trow()
+    private void Awake()
     {
-        throw new System.NotImplementedException();
+        _layerMask = 1 << _layerNumber;
+
+        _playerCamera = Camera.main;
     }
 
     public void Use()
     {
-        Debug.Log("ключ же ничего не делает");
+       TryOpenDoor();
+    }
+
+    private void TryOpenDoor()
+    {
+        Ray ray = _playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, _distanceToDoor, _layerMask))
+        {
+            if (hit.collider.GetComponent<Door>() != null)
+            {
+                Iitem _item = transform.GetComponent<Iitem>();
+                hit.collider.GetComponent<Iinteractable>().InteractWith(_item);
+            }
+        }
     }
 }

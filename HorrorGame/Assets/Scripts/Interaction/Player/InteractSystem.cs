@@ -8,11 +8,15 @@ public class InteractSystem: MonoBehaviour
 
     [SerializeField] private TMP_Text interactText;
 
-    private Iinteractable _currentObject;
+    private Iinteractable interactableObject;
+
+    private int _layerNumber = 9;
+    private int _layerMask;
     
     private void Awake()
     {
         _playerCamera = Camera.main;
+        _layerMask = 1 << _layerNumber;
     }
 
     void Update()
@@ -24,27 +28,26 @@ public class InteractSystem: MonoBehaviour
     {
         Ray ray = _playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, _interactDistance))
+        if (Physics.Raycast(ray, out hit, _interactDistance, _layerMask))
         {
-            Iinteractable interactableObject = hit.collider.GetComponent<Iinteractable>();
-
-            if(interactableObject != null && interactableObject != _currentObject)
-            {
-                _currentObject = interactableObject;
-                interactText.gameObject.SetActive(true);
-              
-                interactText.text = _currentObject.GetInteractionHint();
-            } 
+            print("ура победа");
+            interactableObject = hit.collider.GetComponent<Iinteractable>();
+           
+            interactText.gameObject.SetActive(true);
+            interactText.text = interactableObject.GetInteractionHint();
+            
         }
         else
         {
-            _currentObject = null;
+            interactableObject = null;
+            
             interactText.gameObject.SetActive(false);
         }
     }
 
     public void Interact()
     {
-      
+        Debug.Log(interactableObject.GetInteractionHint());
+        interactableObject.Interact();
     }
 }

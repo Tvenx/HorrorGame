@@ -3,18 +3,22 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private GameObject _currentItem;
+    [SerializeField] private GameObject _currentItem;
 
     [SerializeField] private Camera _playerCamera;
     [SerializeField] private float _interactDistance;
 
-    [SerializeField] private TMP_Text interactText;
+    [SerializeField] private TMP_Text hint;
 
     private GameObject _interactableObject;
+
+    private int _layerNumber = 8;
+    private int _layerMask;
 
     private void Awake()
     {
         _playerCamera = Camera.main;
+        _layerMask = 1 << _layerNumber;
     }
 
     private void Update()
@@ -22,16 +26,19 @@ public class Inventory : MonoBehaviour
         FindItem();
     }
 
-    private void UseItem()
+    public void UseItem()
     {
         _currentItem.GetComponent<Iitem>().Use();
+       // Debug.Log(_currentItem);
     }
 
     public void TakeItem()
     {
-        if (_currentItem != null)
+        if (_interactableObject != null && _currentItem == null)
         {
+            _currentItem = _interactableObject;
             _currentItem.GetComponent<Iitem>().Equip(transform);
+            Debug.Log("взял");
         }
        
     }
@@ -40,22 +47,20 @@ public class Inventory : MonoBehaviour
     {
         Ray ray = _playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, _interactDistance))
+        if (Physics.Raycast(ray, out hit, _interactDistance, _layerMask))
         {
+            Debug.Log(hit.collider.transform.name);
             _interactableObject = hit.collider.gameObject;
+    
 
-            if (_interactableObject.GetComponent<Iitem>() != null && _interactableObject != _currentItem)
-            {
-                _currentItem = _interactableObject;
-                interactText.gameObject.SetActive(true);
+            hint.gameObject.SetActive(true);
 
-                interactText.text = _currentItem.GetComponent<Iinteractable>().GetInteractionHint();
-            }
+            hint.text = _interactableObject.GetComponent<Iinteractable>().GetInteractionHint();
         }
         else
         {
             _interactableObject = null;
-            interactText.gameObject.SetActive(false);
+            hint.gameObject.SetActive(false);
         }
     }
 
@@ -63,6 +68,7 @@ public class Inventory : MonoBehaviour
     {
         _currentItem.GetComponent<Iitem>().Drop();
         _currentItem = null;
+        Debug.Log(_currentItem);
     }
 
     public void ThrowItem()

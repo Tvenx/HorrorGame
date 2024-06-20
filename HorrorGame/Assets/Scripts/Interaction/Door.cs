@@ -1,38 +1,46 @@
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class Door : MonoBehaviour, Iinteractable
 {
     [SerializeField] private bool _closedOnKey;
     [SerializeField] private bool _closed;
     private Animator _animator;
 
+    [SerializeField] private string _requiredKeyID;
+
     private void Start()
     {
         _animator = GetComponent<Animator>();
     }
-    public void InsertKey()
+
+    private void InsertKey(string _key)
     {
-        if(_closedOnKey)
+        if (_key == _requiredKeyID)
         {
-            Debug.Log("использован ключ");
-            _closedOnKey = false;
-            Open();
-        }
-        else
-        {
-            Close();
-            _closedOnKey = true;
+           /* _closedOnKey = !_closedOnKey;
+            Debug.Log(_closedOnKey);*/
+            if (_closedOnKey)
+            {
+                Debug.Log("дверь открыта ключом");
+                _closedOnKey = false;
+                Open();
+            }
+            else
+            {
+                Debug.Log("дверь закрыта на ключ");
+                Close();
+                _closedOnKey = true;
+            }
         }
     }
 
-    public void SwitchState()
+    private void TrySwitchState()
     {
         if (!_closedOnKey)
         {
             if (_closed)
             {
                 Open();
-              //  Debug.Log("jnrhsdf.");
             }
             else
             {
@@ -57,5 +65,20 @@ public class Door : MonoBehaviour
         _animator.SetTrigger("Close");
         Debug.Log("Закрыл");
         _closed = true;
+    }
+
+    public string GetInteractionHint()
+    {
+        return _closedOnKey ? "закрыто на ключ" : _closed? "нажмите Е, чтобы открыть": "нажмите Е, чтобы закрыть";
+    }
+
+    public void Interact()
+    {
+       TrySwitchState();
+    }
+
+    public void InteractWith(Iitem item)
+    {
+        InsertKey(item.ID);
     }
 }

@@ -617,7 +617,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 84027183}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 875e89e9791591f49aaed34720e8b5fe, type: 3}
   m_Name: 
@@ -1628,7 +1628,7 @@ GameObject:
   - component: {fileID: 333620254}
   - component: {fileID: 333620253}
   - component: {fileID: 333620257}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: interactebleCube
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -2438,9 +2438,9 @@ GameObject:
   - component: {fileID: 673042150}
   - component: {fileID: 673042149}
   - component: {fileID: 673042148}
-  - component: {fileID: 673042147}
   - component: {fileID: 673042152}
-  m_Layer: 0
+  - component: {fileID: 673042153}
+  m_Layer: 8
   m_Name: tool (3)
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
@@ -2462,21 +2462,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1666832424}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &673042147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 673042143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6a5d2c3adc8bec4da9652277ad5a20c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tool: {fileID: 673042143}
-  _toolParent: {fileID: 391064912}
-  _throwForce: 10
 --- !u!54 &673042148
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2589,8 +2574,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c17542b5d60771947879bb16b90bc730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: q
+  _id: Screwdriver
   _throwForce: 5
+--- !u!114 &673042153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673042143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c80471e92e4638438b3ccc50f92c9d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _distanceToDoor: 3
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2697,7 +2695,7 @@ GameObject:
   - component: {fileID: 747636746}
   - component: {fileID: 747636745}
   - component: {fileID: 747636744}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: note (1)
   m_TagString: Untagged
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
@@ -2833,7 +2831,7 @@ GameObject:
   - component: {fileID: 758222971}
   - component: {fileID: 758222970}
   - component: {fileID: 758222969}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: note (2)
   m_TagString: Untagged
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
@@ -3594,9 +3592,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e42f4a6bd2e8f454ca4f6b62e5030103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentItem: {fileID: 0}
   _playerCamera: {fileID: 1898210688}
   _interactDistance: 5
-  interactText: {fileID: 1374653912}
+  hint: {fileID: 1107840490}
 --- !u!1 &1070068584
 GameObject:
   m_ObjectHideFlags: 0
@@ -3692,6 +3691,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1374653911}
+  - {fileID: 1107840489}
   - {fileID: 1498147531}
   - {fileID: 1980247809}
   m_Father: {fileID: 0}
@@ -3701,6 +3701,142 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1107840488
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1107840489}
+  - component: {fileID: 1107840491}
+  - component: {fileID: 1107840490}
+  m_Layer: 5
+  m_Name: interactionText (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1107840489
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107840488}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1070068588}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 116, y: -90}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1107840490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107840488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Interaction Text
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4278190080
+  m_fontColor: {r: 1, g: 0.70692027, b: 0, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 50
+  m_fontSizeBase: 50
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: -240.47543, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1107840491
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107840488}
+  m_CullTransparentMesh: 1
 --- !u!1 &1170519485
 GameObject:
   m_ObjectHideFlags: 0
@@ -3976,9 +4112,8 @@ GameObject:
   - component: {fileID: 1368456322}
   - component: {fileID: 1368456321}
   - component: {fileID: 1368456320}
-  - component: {fileID: 1368456319}
   - component: {fileID: 1368456318}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: door (1)
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -4022,50 +4157,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1368456319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1368456316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db5efb562c15def4b8e7402400c698ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interactableText: Press E to Interact
-  _onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1368456320}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: SwitchState
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _onInteractWith:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1368456320}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: InsertKey
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _keyId: screwdriver
 --- !u!114 &1368456320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4080,6 +4171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _closedOnKey: 1
   _closed: 1
+  _requiredKeyID: Screwdriver
 --- !u!65 &1368456321
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4302,9 +4394,8 @@ GameObject:
   - component: {fileID: 1412531613}
   - component: {fileID: 1412531612}
   - component: {fileID: 1412531611}
-  - component: {fileID: 1412531610}
   - component: {fileID: 1412531609}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: door (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4348,50 +4439,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1412531610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1412531607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db5efb562c15def4b8e7402400c698ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interactableText: Press E to Interact
-  _onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1412531611}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: SwitchState
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _onInteractWith:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1412531611}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: InsertKey
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _keyId: box key
 --- !u!114 &1412531611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4406,6 +4453,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _closedOnKey: 1
   _closed: 1
+  _requiredKeyID: box key
 --- !u!65 &1412531612
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4492,59 +4540,14 @@ GameObject:
   - component: {fileID: 1421251093}
   - component: {fileID: 1421251092}
   - component: {fileID: 1421251091}
-  - component: {fileID: 1421251090}
   - component: {fileID: 1421251096}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: door
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1421251090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1421251089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db5efb562c15def4b8e7402400c698ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interactableText: Press E to Interact
-  _onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1421251091}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: SwitchState
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _onInteractWith:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1421251091}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: InsertKey
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _keyId: standart key
 --- !u!114 &1421251091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4559,6 +4562,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _closedOnKey: 1
   _closed: 1
+  _requiredKeyID: standart key
 --- !u!65 &1421251092
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6003,9 +6007,9 @@ GameObject:
   - component: {fileID: 1756817945}
   - component: {fileID: 1756817944}
   - component: {fileID: 1756817943}
-  - component: {fileID: 1756817942}
-  - component: {fileID: 1756817941}
-  m_Layer: 0
+  - component: {fileID: 1756817948}
+  - component: {fileID: 1756817947}
+  m_Layer: 8
   m_Name: tool (2)
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -6027,49 +6031,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1666832424}
   m_LocalEulerAnglesHint: {x: 0, y: -93.794, z: -92.797}
---- !u!114 &1756817941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1756817939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 416a06c0d12605c4a9cbf6c50f32da50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interactableText: Press E to Interact
-  _onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1756817942}
-        m_TargetAssemblyTypeName: EquipItem, Assembly-CSharp
-        m_MethodName: Equip
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1756817942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1756817939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6a5d2c3adc8bec4da9652277ad5a20c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tool: {fileID: 1756817939}
-  _toolParent: {fileID: 391064912}
-  _throwForce: 10
 --- !u!54 &1756817943
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6170,6 +6131,33 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1756817939}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1756817947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756817939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c80471e92e4638438b3ccc50f92c9d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _distanceToDoor: 3
+--- !u!114 &1756817948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756817939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c17542b5d60771947879bb16b90bc730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: box key
+  _throwForce: 5
 --- !u!1 &1787297022
 GameObject:
   m_ObjectHideFlags: 0
@@ -6183,9 +6171,8 @@ GameObject:
   - component: {fileID: 1787297028}
   - component: {fileID: 1787297027}
   - component: {fileID: 1787297026}
-  - component: {fileID: 1787297025}
   - component: {fileID: 1787297024}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: door (1)
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -6229,50 +6216,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1787297025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1787297022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db5efb562c15def4b8e7402400c698ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interactableText: Press E to Interact
-  _onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1787297026}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: SwitchState
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _onInteractWith:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1787297026}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: InsertKey
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _keyId: screwdriver
 --- !u!114 &1787297026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6287,6 +6230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _closedOnKey: 1
   _closed: 1
+  _requiredKeyID: Screwdriver
 --- !u!65 &1787297027
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6373,31 +6317,15 @@ GameObject:
   - component: {fileID: 1878200256}
   - component: {fileID: 1878200255}
   - component: {fileID: 1878200253}
-  - component: {fileID: 1878200252}
-  - component: {fileID: 1878200260}
   - component: {fileID: 1878200259}
-  m_Layer: 0
+  - component: {fileID: 1878200260}
+  m_Layer: 8
   m_Name: tool
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1878200252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1878200251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6a5d2c3adc8bec4da9652277ad5a20c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tool: {fileID: 1878200251}
-  _toolParent: {fileID: 391064912}
-  _throwForce: 10
 --- !u!54 &1878200253
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6525,7 +6453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c80471e92e4638438b3ccc50f92c9d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: standart key
+  _distanceToDoor: 3
 --- !u!114 &1878200260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6535,25 +6463,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1878200251}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 416a06c0d12605c4a9cbf6c50f32da50, type: 3}
+  m_Script: {fileID: 11500000, guid: c17542b5d60771947879bb16b90bc730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactableText: Press E to Interact
-  _onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1878200252}
-        m_TargetAssemblyTypeName: EquipItem, Assembly-CSharp
-        m_MethodName: Equip
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  _id: standart key
+  _throwForce: 5
 --- !u!1 &1898210684
 GameObject:
   m_ObjectHideFlags: 0
@@ -6596,7 +6510,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1898210684}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: aa5b65f366e607449972d2192194bce0, type: 2}
   m_CullingMode: 0
@@ -6682,10 +6596,9 @@ GameObject:
   - component: {fileID: 1942244872}
   - component: {fileID: 1942244871}
   - component: {fileID: 1942244870}
-  - component: {fileID: 1942244869}
-  - component: {fileID: 1942244868}
   - component: {fileID: 1942244867}
-  m_Layer: 0
+  - component: {fileID: 1942244874}
+  m_Layer: 8
   m_Name: tool (1)
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
@@ -6719,50 +6632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c80471e92e4638438b3ccc50f92c9d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: box key
---- !u!114 &1942244868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1942244865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 416a06c0d12605c4a9cbf6c50f32da50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interactableText: Press E to Interact
-  _onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1942244869}
-        m_TargetAssemblyTypeName: EquipItem, Assembly-CSharp
-        m_MethodName: Equip
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1942244869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1942244865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6a5d2c3adc8bec4da9652277ad5a20c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tool: {fileID: 1942244865}
-  _toolParent: {fileID: 391064912}
-  _throwForce: 10
+  _distanceToDoor: 3
 --- !u!54 &1942244870
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6863,6 +6733,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942244865}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1942244874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942244865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c17542b5d60771947879bb16b90bc730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: standart key
+  _throwForce: 5
 --- !u!1 &1949805253
 GameObject:
   m_ObjectHideFlags: 0

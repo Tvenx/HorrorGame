@@ -7,12 +7,14 @@ public class Item : MonoBehaviour, Iitem, Iinteractable
 
     private Rigidbody _rigidbody;
 
-    private bool _isItemInHand = false;
+    //private bool _isItemInHand = false;
 
+    private Iusable _usableItem;
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _usableItem = GetComponent<Iusable>();
 
         _rigidbody.isKinematic = true;
     }
@@ -31,12 +33,13 @@ public class Item : MonoBehaviour, Iitem, Iinteractable
         transform.rotation = _toolParent.transform.rotation;
 
         transform.SetParent(_toolParent);
-        _isItemInHand = true;
+      //  _isItemInHand = true;
     }
 
     public void Use()
     {
-        Debug.Log("ключ же ничего не делает");
+        Debug.Log("использовал");
+        _usableItem.Use();
     }
 
     public void Drop()
@@ -45,7 +48,7 @@ public class Item : MonoBehaviour, Iitem, Iinteractable
 
         _rigidbody.isKinematic = false;
 
-        _isItemInHand = false;
+      //  _isItemInHand = false;
     }
 
     public void Trow()
@@ -55,12 +58,12 @@ public class Item : MonoBehaviour, Iitem, Iinteractable
         _rigidbody.isKinematic = false;
 
         _rigidbody.AddForce(transform.forward * _throwForce, ForceMode.Impulse);
-        _isItemInHand = false;
+       // _isItemInHand = false;
     }
 
     public string GetInteractionHint()
     {
-        return ("Нажмите E чтобы экипировать");
+        return ("Нажмите F чтобы экипировать");
     }
 
     public void Interact()

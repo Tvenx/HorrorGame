@@ -17,7 +17,13 @@ public class PlayerInput : MonoBehaviour
         _input.Player.EquipItem.performed += EquipItem_performed;
         _input.Player.DropItem.performed += DropItem_performed;
         _input.Player.ThrowItem.performed += ThrowItem_performed;
+        _input.Player.UseItem.performed += UseItem_performed;
 
+    }
+
+    private void UseItem_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        _inventory.UseItem();
     }
 
     private void ThrowItem_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
