@@ -59,4 +59,5 @@ public class PlayerHealth : MonoBehaviour, IHealth
         CurrentHealth = _minHealth;
         Debug.Log("Установлено минимальное здоровье");
     }
+
 }
