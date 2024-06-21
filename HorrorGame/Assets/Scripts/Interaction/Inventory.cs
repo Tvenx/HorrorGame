@@ -12,13 +12,11 @@ public class Inventory : MonoBehaviour
 
     private GameObject _interactableObject;
 
-    private int _layerNumber = 8;
-    private int _layerMask;
+    [SerializeField] private LayerMask _layerMask;
 
     private void Awake()
     {
         _playerCamera = Camera.main;
-        _layerMask = 1 << _layerNumber;
     }
 
     private void Update()
@@ -28,8 +26,8 @@ public class Inventory : MonoBehaviour
 
     public void UseItem()
     {
-        _currentItem.GetComponent<Iitem>().Use();
-       // Debug.Log(_currentItem);
+        if (_currentItem != null)
+            _currentItem.GetComponent<Item>().Use();
     }
 
     public void TakeItem()
@@ -37,7 +35,7 @@ public class Inventory : MonoBehaviour
         if (_interactableObject != null && _currentItem == null)
         {
             _currentItem = _interactableObject;
-            _currentItem.GetComponent<Iitem>().Equip(transform);
+            _currentItem.GetComponent<Item>().Equip(transform);
             Debug.Log("взял");
         }
        
@@ -47,15 +45,22 @@ public class Inventory : MonoBehaviour
     {
         Ray ray = _playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         RaycastHit hit;
+
         if (Physics.Raycast(ray, out hit, _interactDistance, _layerMask))
         {
-            Debug.Log(hit.collider.transform.name);
-            _interactableObject = hit.collider.gameObject;
-    
+            RaycastHit otherHit;
+            Physics.Raycast(ray, out otherHit, _interactDistance);
 
-            hint.gameObject.SetActive(true);
+                if (otherHit.collider == hit.collider)
+                {
+                    Debug.Log(hit.collider.transform.name);
+                    _interactableObject = hit.collider.gameObject;
 
-            hint.text = _interactableObject.GetComponent<Iinteractable>().GetInteractionHint();
+
+                    hint.gameObject.SetActive(true);
+
+                    hint.text = _interactableObject.GetComponent<Iinteractable>().GetInteractionHint();
+                } 
         }
         else
         {
@@ -66,14 +71,20 @@ public class Inventory : MonoBehaviour
 
     public void DropItem()
     {
-        _currentItem.GetComponent<Iitem>().Drop();
-        _currentItem = null;
-        Debug.Log(_currentItem);
+        if (_currentItem != null)
+        {
+            _currentItem.GetComponent<Item>().Drop();
+            _currentItem = null;
+            Debug.Log(_currentItem);
+        }
     }
 
     public void ThrowItem()
     {
-        _currentItem.GetComponent<Iitem>().Trow();
-        _currentItem = null;
+        if (_currentItem != null)
+        {
+            _currentItem.GetComponent<Item>().Trow();
+            _currentItem = null;
+        }
     }
 }

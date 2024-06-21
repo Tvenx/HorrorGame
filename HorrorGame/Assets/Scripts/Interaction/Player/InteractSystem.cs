@@ -30,12 +30,10 @@ public class InteractSystem: MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, _interactDistance, _layerMask))
         {
-            print("ура победа");
             interactableObject = hit.collider.GetComponent<Iinteractable>();
            
             interactText.gameObject.SetActive(true);
-            interactText.text = interactableObject.GetInteractionHint();
-            
+            interactText.text = interactableObject.GetInteractionHint();  
         }
         else
         {
@@ -47,7 +45,7 @@ public class InteractSystem: MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log(interactableObject.GetInteractionHint());
+      if(interactableObject != null )
         interactableObject.Interact();
     }
 }

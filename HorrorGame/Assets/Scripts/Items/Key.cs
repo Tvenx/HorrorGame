@@ -32,7 +32,7 @@ public class Key : MonoBehaviour, Iusable
         {
             if (hit.collider.GetComponent<Door>() != null)
             {
-                Iitem _item = transform.GetComponent<Iitem>();
+                Item _item = transform.GetComponent<Item>();
                 hit.collider.GetComponent<Iinteractable>().InteractWith(_item);
             }
         }

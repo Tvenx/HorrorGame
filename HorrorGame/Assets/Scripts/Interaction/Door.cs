@@ -77,7 +77,7 @@ public class Door : MonoBehaviour, Iinteractable
        TrySwitchState();
     }
 
-    public void InteractWith(Iitem item)
+    public void InteractWith(Item item)
     {
         InsertKey(item.ID);
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Item : MonoBehaviour, Iitem, Iinteractable
+public class Item : MonoBehaviour, Iinteractable
 {
     [SerializeField] private string _id;
     [SerializeField] private float _throwForce;
@@ -71,7 +71,7 @@ public class Item : MonoBehaviour, Iitem, Iinteractable
         throw new System.NotImplementedException();
     }
 
-    public void InteractWith(Iitem item)
+    public void InteractWith(Item item)
     {
         throw new System.NotImplementedException();
     }

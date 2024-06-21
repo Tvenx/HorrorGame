@@ -3596,6 +3596,9 @@ MonoBehaviour:
   _playerCamera: {fileID: 1898210688}
   _interactDistance: 5
   hint: {fileID: 1107840490}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &1070068584
 GameObject:
   m_ObjectHideFlags: 0

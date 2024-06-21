@@ -17,7 +17,7 @@ public class DefaultInteractable : MonoBehaviour, Iinteractable
         _onInteract.Invoke(); 
     }
 
-    public void InteractWith(Iitem item)
+    public void InteractWith(Item item)
     {
         _onInteract.Invoke();
     }
