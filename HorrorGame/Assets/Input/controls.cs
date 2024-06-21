@@ -64,7 +64,16 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Drop"",
+                    ""name"": ""EquipItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""1f17b1ac-2bdd-48fd-9c13-c5af3df6a928"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DropItem"",
                     ""type"": ""Button"",
                     ""id"": ""b8b9e6e7-e1fe-404a-8fa4-14f0d3e21edf"",
                     ""expectedControlType"": ""Button"",
@@ -73,7 +82,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Throw"",
+                    ""name"": ""ThrowItem"",
                     ""type"": ""Button"",
                     ""id"": ""fc888d1f-fde1-457a-9688-cfdc311d8e9b"",
                     ""expectedControlType"": ""Button"",
@@ -87,7 +96,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""id"": ""3c0e04b5-6742-4f51-a7e5-5b17634c761a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -284,7 +293,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Drop"",
+                    ""action"": ""DropItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -295,7 +304,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Throw"",
+                    ""action"": ""ThrowItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -320,6 +329,28 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""63223f6b-3753-4c4f-9407-17c40ef0b12a"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EquipItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0721b3e2-2829-4f10-884b-877c863bf239"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EquipItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -332,8 +363,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_UseItem = m_Player.FindAction("UseItem", throwIfNotFound: true);
         m_Player_Interacte = m_Player.FindAction("Interacte", throwIfNotFound: true);
-        m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
-        m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
+        m_Player_EquipItem = m_Player.FindAction("EquipItem", throwIfNotFound: true);
+        m_Player_DropItem = m_Player.FindAction("DropItem", throwIfNotFound: true);
+        m_Player_ThrowItem = m_Player.FindAction("ThrowItem", throwIfNotFound: true);
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
     }
@@ -401,8 +433,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_UseItem;
     private readonly InputAction m_Player_Interacte;
-    private readonly InputAction m_Player_Drop;
-    private readonly InputAction m_Player_Throw;
+    private readonly InputAction m_Player_EquipItem;
+    private readonly InputAction m_Player_DropItem;
+    private readonly InputAction m_Player_ThrowItem;
     private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_Crouch;
     public struct PlayerActions
@@ -413,8 +446,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @UseItem => m_Wrapper.m_Player_UseItem;
         public InputAction @Interacte => m_Wrapper.m_Player_Interacte;
-        public InputAction @Drop => m_Wrapper.m_Player_Drop;
-        public InputAction @Throw => m_Wrapper.m_Player_Throw;
+        public InputAction @EquipItem => m_Wrapper.m_Player_EquipItem;
+        public InputAction @DropItem => m_Wrapper.m_Player_DropItem;
+        public InputAction @ThrowItem => m_Wrapper.m_Player_ThrowItem;
         public InputAction @Run => m_Wrapper.m_Player_Run;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -438,12 +472,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Interacte.started += instance.OnInteracte;
             @Interacte.performed += instance.OnInteracte;
             @Interacte.canceled += instance.OnInteracte;
-            @Drop.started += instance.OnDrop;
-            @Drop.performed += instance.OnDrop;
-            @Drop.canceled += instance.OnDrop;
-            @Throw.started += instance.OnThrow;
-            @Throw.performed += instance.OnThrow;
-            @Throw.canceled += instance.OnThrow;
+            @EquipItem.started += instance.OnEquipItem;
+            @EquipItem.performed += instance.OnEquipItem;
+            @EquipItem.canceled += instance.OnEquipItem;
+            @DropItem.started += instance.OnDropItem;
+            @DropItem.performed += instance.OnDropItem;
+            @DropItem.canceled += instance.OnDropItem;
+            @ThrowItem.started += instance.OnThrowItem;
+            @ThrowItem.performed += instance.OnThrowItem;
+            @ThrowItem.canceled += instance.OnThrowItem;
             @Run.started += instance.OnRun;
             @Run.performed += instance.OnRun;
             @Run.canceled += instance.OnRun;
@@ -466,12 +503,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Interacte.started -= instance.OnInteracte;
             @Interacte.performed -= instance.OnInteracte;
             @Interacte.canceled -= instance.OnInteracte;
-            @Drop.started -= instance.OnDrop;
-            @Drop.performed -= instance.OnDrop;
-            @Drop.canceled -= instance.OnDrop;
-            @Throw.started -= instance.OnThrow;
-            @Throw.performed -= instance.OnThrow;
-            @Throw.canceled -= instance.OnThrow;
+            @EquipItem.started -= instance.OnEquipItem;
+            @EquipItem.performed -= instance.OnEquipItem;
+            @EquipItem.canceled -= instance.OnEquipItem;
+            @DropItem.started -= instance.OnDropItem;
+            @DropItem.performed -= instance.OnDropItem;
+            @DropItem.canceled -= instance.OnDropItem;
+            @ThrowItem.started -= instance.OnThrowItem;
+            @ThrowItem.performed -= instance.OnThrowItem;
+            @ThrowItem.canceled -= instance.OnThrowItem;
             @Run.started -= instance.OnRun;
             @Run.performed -= instance.OnRun;
             @Run.canceled -= instance.OnRun;
@@ -501,8 +541,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnUseItem(InputAction.CallbackContext context);
         void OnInteracte(InputAction.CallbackContext context);
-        void OnDrop(InputAction.CallbackContext context);
-        void OnThrow(InputAction.CallbackContext context);
+        void OnEquipItem(InputAction.CallbackContext context);
+        void OnDropItem(InputAction.CallbackContext context);
+        void OnThrowItem(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
     }
