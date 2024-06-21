@@ -10,13 +10,11 @@ public class InteractSystem: MonoBehaviour
 
     private Iinteractable interactableObject;
 
-    private int _layerNumber = 9;
-    private int _layerMask;
+    [SerializeField] private LayerMask _layerMask;
     
     private void Awake()
     {
         _playerCamera = Camera.main;
-        _layerMask = 1 << _layerNumber;
     }
 
     void Update()
@@ -30,10 +28,16 @@ public class InteractSystem: MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, _interactDistance, _layerMask))
         {
-            interactableObject = hit.collider.GetComponent<Iinteractable>();
-           
-            interactText.gameObject.SetActive(true);
-            interactText.text = interactableObject.GetInteractionHint();  
+            RaycastHit otherHit;
+            Physics.Raycast(ray, out otherHit, _interactDistance);
+
+            if (otherHit.collider == hit.collider)
+            {
+                interactableObject = hit.collider.GetComponent<Iinteractable>();
+
+                interactText.gameObject.SetActive(true);
+                interactText.text = interactableObject.GetInteractionHint();
+            }
         }
         else
         {

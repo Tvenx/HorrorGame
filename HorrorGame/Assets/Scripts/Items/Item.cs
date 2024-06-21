@@ -7,8 +7,6 @@ public class Item : MonoBehaviour, Iinteractable
 
     private Rigidbody _rigidbody;
 
-    //private bool _isItemInHand = false;
-
     private Iusable _usableItem;
 
     private void Start()
@@ -33,7 +31,6 @@ public class Item : MonoBehaviour, Iinteractable
         transform.rotation = _toolParent.transform.rotation;
 
         transform.SetParent(_toolParent);
-      //  _isItemInHand = true;
     }
 
     public void Use()
@@ -47,8 +44,6 @@ public class Item : MonoBehaviour, Iinteractable
         transform.SetParent(null);
 
         _rigidbody.isKinematic = false;
-
-      //  _isItemInHand = false;
     }
 
     public void Trow()
@@ -58,7 +53,6 @@ public class Item : MonoBehaviour, Iinteractable
         _rigidbody.isKinematic = false;
 
         _rigidbody.AddForce(transform.forward * _throwForce, ForceMode.Impulse);
-       // _isItemInHand = false;
     }
 
     public string GetInteractionHint()

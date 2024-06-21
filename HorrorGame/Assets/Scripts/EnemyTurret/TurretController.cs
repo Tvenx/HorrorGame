@@ -99,14 +99,14 @@ public class TurretController : MonoBehaviour
         {
             PlayerHealth health = hitInfo.transform.gameObject.GetComponent<PlayerHealth>();
 
-            //if (health == null)
-            //{
-            //    Debug.LogWarning("We hit something that doesn't have health.........");
-            //}
-            //else
-            //{
-            //    health.TakeDamage(_damageAmount);
-            //}
+            if (health == null)
+            {
+                Debug.LogWarning("We hit something that doesn't have health.........");
+            }
+            else
+            {
+                health.TakeDamage(_damageAmount);
+            }
         }
     }
 }
