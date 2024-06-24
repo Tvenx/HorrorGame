@@ -5,25 +5,17 @@ using UnityEngine;
 public class TurretController : MonoBehaviour
 {
     [Header("Properties")]
-    [SerializeField]
-    private float _fireRate = 0.05f;
-    [SerializeField]
-    private int _damageAmount = 20;
-    [SerializeField]
-    private float _rotationSpeed = 5f;
-    [SerializeField]
-    private float _maxShootDistance = 10f;
+    [SerializeField] private float _fireRate = 0.05f;
+    [SerializeField] private int _damageAmount = 20;
+    [SerializeField] private float _rotationSpeed = 5f;
+    [SerializeField] private float _maxShootDistance = 10f;
 
-    [SerializeField]
-    private Transform _turretPivot;
-    [SerializeField]
-    private Transform _firePoint;
-    [SerializeField]
-    private ParticleSystem _shootEffect;
+    [SerializeField] private Transform _turretPivot;
+    [SerializeField] private Transform _firePoint;
+    [SerializeField] private ParticleSystem _shootEffect;
 
     [Header("Targets")]
-    [SerializeField]
-    private List<GameObject> _targets;
+    [SerializeField] private List<GameObject> _targets;
 
     private float _timeTillNextShot;
     private GameObject _activeTarget;

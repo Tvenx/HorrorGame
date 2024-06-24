@@ -5,15 +5,22 @@ public class PlayerMove : MonoBehaviour
 {
     private Controls _input;
 
-    private float _speed;
+    [Header("HeadBob")]
+    [SerializeField] private float _bobSpeed = 1.0f; // Скорость тряски
+    [SerializeField] private float _bobAmount = 0.05f; // Амплитуда тряски
+    [SerializeField] private float _timer = 0.0f; // Таймер для тряски
+    private Vector3 _originalCameraPosition; // Исходная позиция камеры
+
+    [Header("ChatacterMove")]
     [SerializeField] private float _walkSpeed;
     [SerializeField] private float _runSpeed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _crouchSpeed;
+    private float _speed;
 
-    private CharacterController _characterController;   
+    private CharacterController _characterController;
 
-    private StaminaPlayer _staminaPlayer;  
+    private StaminaPlayer _staminaPlayer;
 
     private Vector2 _movement;
 
@@ -22,8 +29,8 @@ public class PlayerMove : MonoBehaviour
     private float _crouchHeight = 1.0f;
     float _characterHeight;
 
+    private float velocity;
 
-    float velocity;
 
     private void Awake()
     {
@@ -35,6 +42,8 @@ public class PlayerMove : MonoBehaviour
 
         _speed = _walkSpeed;
         _characterHeight = _characterController.height;
+
+        _originalCameraPosition = transform.GetChild(0).localPosition;
     }
 
     private void OnEnable()
@@ -46,12 +55,14 @@ public class PlayerMove : MonoBehaviour
     {
         _input.Disable();
     }
-    private void Update() 
+    private void Update()
     {
         Move();
         GravityFall();
         Crouch();
         Run();
+
+        ApplyHeadBob();
     }
 
     private void Move()
@@ -59,7 +70,7 @@ public class PlayerMove : MonoBehaviour
         _movement = _input.Player.Move.ReadValue<Vector2>();
         Vector3 _moveDirection = (_movement.y * transform.forward + _movement.x * transform.right);
         _characterController.Move(_moveDirection * _speed * Time.deltaTime);
-        
+
     }
 
     private void GravityFall()
@@ -71,16 +82,16 @@ public class PlayerMove : MonoBehaviour
 
     private void Run()
     {
-            if (_input.Player.Run.IsPressed() && _staminaPlayer.CanRun() && !_isCrouching)
-            {
-                _staminaPlayer.LowEnergy();
-                _speed = _runSpeed;
-            }
-            else
-            {
-                 _speed = _walkSpeed;
-                _staminaPlayer.UpEnergy();
-            }
+        if (_input.Player.Run.IsPressed() && _staminaPlayer.CanRun() && !_isCrouching)
+        {
+            _staminaPlayer.LowEnergy();
+            _speed = _runSpeed;
+        }
+        else
+        {
+            _speed = _walkSpeed;
+            _staminaPlayer.UpEnergy();
+        }
     }
 
 
@@ -90,7 +101,7 @@ public class PlayerMove : MonoBehaviour
         {
             if (!_isCrouching)
             {
-                StartCoroutine(SetHeight(_crouchHeight, _crouchSpeed)); 
+                StartCoroutine(SetHeight(_crouchHeight, _crouchSpeed));
                 _isCrouching = true;
             }
             else
@@ -98,10 +109,10 @@ public class PlayerMove : MonoBehaviour
                 Ray _ray = new Ray(transform.position, Vector3.up);
                 if (!Physics.Raycast(_ray, _characterHeight - _crouchHeight + 0.4f)) //исправить это надо будет обязательно
                 {
-                    StartCoroutine(SetHeight(_originalMaxHeight, _crouchSpeed)); 
+                    StartCoroutine(SetHeight(_originalMaxHeight, _crouchSpeed));
                     _isCrouching = false;
                 }
-            }  
+            }
         }
     }
     //к этому тоже много вопросов
@@ -118,5 +129,22 @@ public class PlayerMove : MonoBehaviour
             yield return null;
         }
         _characterController.height = targetHeight;
+    }
+
+    private void ApplyHeadBob()
+    {
+        if (_movement.magnitude > 0.1f) // Проверка на движение
+        {
+            _timer += Time.deltaTime * _bobSpeed;
+            float bobX = Mathf.Sin(_timer) * _bobAmount;
+            float bobY = Mathf.Cos(_timer * 2) * _bobAmount * 0.5f;
+            Vector3 bobOffset = new Vector3(bobX, bobY, 0);
+            transform.GetChild(0).localPosition = _originalCameraPosition + bobOffset; 
+        }
+        else
+        {
+            _timer = 0.0f;
+            transform.GetChild(0).localPosition = _originalCameraPosition; // Возвращаем камеру в исходное положение
+        }
     }
 }
