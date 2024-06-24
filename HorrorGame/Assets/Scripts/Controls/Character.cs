@@ -8,7 +8,9 @@ public class Character : MonoBehaviour, IControllable
     private CharacterController _characterController;
     private InteractSystem _interactSystem;
 
-    float velocity;
+    private float velocity;
+
+    private bool _isMove; 
 
     private void Awake()
     {
@@ -54,6 +56,19 @@ public class Character : MonoBehaviour, IControllable
 
     public void Move(Vector3 _direction)
     {
-        _characterController.Move(_direction * _speed * Time.deltaTime);
+        if (_direction != Vector3.zero)
+        {
+            _isMove = true;
+            _characterController.Move(_direction * _speed * Time.deltaTime);
+        }
+        else
+        {
+            _isMove = false;
+        }
+    }
+
+    public bool IsMove()
+    {
+        return _isMove;
     }
 }
