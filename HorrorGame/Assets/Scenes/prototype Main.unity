@@ -625,6 +625,9 @@ MonoBehaviour:
   _playerCamera: {fileID: 1898210688}
   _interactDistance: 5
   interactText: {fileID: 1374653912}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &84027186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1494,6 +1497,9 @@ MonoBehaviour:
   _playerCamera: {fileID: 963194227}
   _interactDistance: 5
   interactText: {fileID: 1374653912}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &302763485
 MonoBehaviour:
   m_ObjectHideFlags: 0
