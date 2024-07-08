@@ -40,4 +40,13 @@ public class TriggerEnemyTree : MonoBehaviour
             isPlayerInsideTrigger = false;
         }
     }
+
+    public IEnumerator PursuitDelay()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(3);
+            rootSpawner.lastSpawnPosition = rootSpawner.spawnPoint.position;
+        }
+    }
 }

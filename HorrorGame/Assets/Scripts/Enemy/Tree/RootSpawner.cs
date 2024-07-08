@@ -11,7 +11,7 @@ public class RootSpawner : MonoBehaviour
 
     [SerializeField] private Transform playerTransform;
     public float nextSpawnTime;
-    private Vector3 lastSpawnPosition;
+    public Vector3 lastSpawnPosition;
 
     private void Start()
     {
