@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,8 +12,6 @@ public class RootSpawner : MonoBehaviour
     [SerializeField] private Transform playerTransform;
     public float nextSpawnTime;
     private Vector3 lastSpawnPosition;
-
-    public List<GameObject> _target;
 
     private void Start()
     {
@@ -36,8 +35,22 @@ public class RootSpawner : MonoBehaviour
         }
 
         lastSpawnPosition = spawnPosition;
+
+        StartCoroutine(DestroyAfterDelay(newPrefab, 6.0f));
     }
 
+    public IEnumerator SpawnInterval()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(spawnInterval);
+            SpawnPrefab();
+        }
+    }
 
-
+    private IEnumerator DestroyAfterDelay(GameObject obj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(obj);
+    }
 }

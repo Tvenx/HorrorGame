@@ -53,7 +53,7 @@ public class Inventory : MonoBehaviour
 
                 if (otherHit.collider == hit.collider)
                 {
-                    Debug.Log(hit.collider.transform.name);
+                    //Debug.Log(hit.collider.transform.name);
                     _interactableObject = hit.collider.gameObject;
 
 
