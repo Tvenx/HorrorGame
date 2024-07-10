@@ -10,11 +10,16 @@ public class Stamina : MonoBehaviour
    
     private bool _isSpendingEnergy;
 
-    private float _energy;
+    [SerializeField] private float _energy;
     private float _Energy
     {
         get { return _energy; }
         set { _energy = Mathf.Clamp(value, _minEnergy, _maxEnergy); }
+    }
+
+    private void Awake()
+    {
+        _Energy = _maxEnergy;
     }
 
     private void Update()
@@ -24,8 +29,10 @@ public class Stamina : MonoBehaviour
             RestoreEnergy();
         }
     }
-    private void SpendEnergy(float _energyToSpend)
+
+    public void SpendEnergy(float _energyToSpend)
     {
+        Debug.Log("тратим энергию");
         if (_Energy > _minEnergy)
         {
             _Energy -= _energyToSpend * Time.deltaTime;
@@ -34,11 +41,21 @@ public class Stamina : MonoBehaviour
 
     private void RestoreEnergy()
     {
-            _Energy += _energyRestoreStep * Time.deltaTime;
+        _Energy += _energyRestoreStep * Time.deltaTime;
     }
 
-    private float GetEnergy()
+    public float GetEnergy()
     {
         return _Energy;
+    }
+
+    public bool HasEnergy()
+    {
+        if(_Energy > _minEnergy)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

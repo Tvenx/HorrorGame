@@ -4,9 +4,12 @@ public class Character : MonoBehaviour, IControllable
 {
     private float _speed;
     [SerializeField] private float _walkSpeed;
+    [SerializeField] private float _runSpeed;
+    [SerializeField] private float _energyToRun = 4;
 
     private CharacterController _characterController;
     private InteractSystem _interactSystem;
+    private Stamina _stamina;
 
     private float velocity;
 
@@ -16,6 +19,7 @@ public class Character : MonoBehaviour, IControllable
     {
         _characterController = GetComponent<CharacterController>();
         _interactSystem = GetComponentInChildren<InteractSystem>();
+        _stamina = GetComponent<Stamina>();
 
         _speed = _walkSpeed;
     }
@@ -51,7 +55,17 @@ public class Character : MonoBehaviour, IControllable
 
     public void Run()
     {
-        Debug.Log("Бежит");
+        if (_stamina.HasEnergy())
+        {
+            Debug.Log(_stamina.GetEnergy());
+            _speed = _runSpeed;
+            _stamina.SpendEnergy(_energyToRun);
+        }
+    }
+
+    public void StopRun()
+    {
+        _speed = _walkSpeed;
     }
 
     public void Move(Vector3 _direction)

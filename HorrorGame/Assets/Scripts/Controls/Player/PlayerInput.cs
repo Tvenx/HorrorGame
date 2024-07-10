@@ -18,6 +18,18 @@ public class PlayerInput : MonoBehaviour
         _input.Player.DropItem.performed += DropItem_performed;
         _input.Player.ThrowItem.performed += ThrowItem_performed;
         _input.Player.UseItem.performed += UseItem_performed;
+        _input.Player.Run.canceled += Run_canceled;
+        _input.Player.Run.performed += Run_performed;
+    }
+
+    private void Run_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        _controllable.Run();
+    }
+
+    private void Run_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+       _controllable.StopRun();
     }
 
     private void UseItem_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -53,11 +65,6 @@ public class PlayerInput : MonoBehaviour
     private void Update()
     {
         ReadMovement();
-
-        if (_input.Player.Run.IsPressed())//временное решение
-        {
-            _controllable.Run();
-        }
     }
 
     private void ReadMovement()

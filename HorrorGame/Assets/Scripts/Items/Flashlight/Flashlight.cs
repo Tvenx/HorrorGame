@@ -1,48 +1,53 @@
 using UnityEngine;
+using System.Collections;
+using Unity.VisualScripting;
 
-public class Flashlight : MonoBehaviour
+public class Flashlight : MonoBehaviour, Iusable
 {
-    public GameObject flashlight;
-    private float _maxCharge = 100f;
     [SerializeField] private float _currentCharge;
-    private bool on;
-    private bool off;
-    private Coroutine chargeCoroutine; // ƒобавл€ем переменную дл€ хранени€ ссылки на корутину
+    private Light light;
+    private float _maxCharge = 100f;
+    private bool switchValue;
 
     private void Start()
     {
         _currentCharge = _maxCharge;
-        flashlight.GetComponent<Light>().enabled = false;
-        off = true;
+
+        light = GetComponentInChildren<Light>();
+
+        switchValue = light.enabled;
     }
 
-    private void Update()
+    public void Use()
     {
-        Use();
-    }
+        if (_currentCharge > 0)
+        {
+            switchValue = !switchValue;
 
-    private void Use()
-    {
-        if (off && Input.GetKeyDown(KeyCode.Y))
-        {
-            flashlight.GetComponent<Light>().enabled = true;
-            off = false;
-            on = true;
-            chargeCoroutine = StartCoroutine(DecreaseChargeOverTime()); // «апускаем корутину и сохран€ем ссылку
-        }
-        else if (on && Input.GetKeyDown(KeyCode.Y))
-        {
-            flashlight.GetComponent<Light>().enabled = false;
-            off = true;
-            on = false;
-            if (chargeCoroutine != null) // ќстанавливаем корутину, если она была запущена
+            if (switchValue == true)
             {
-                StopCoroutine(chargeCoroutine);
+                SwitchOn();
+            }
+            else
+            {
+                SwitchOff();
             }
         }
     }
 
-    private System.Collections.IEnumerator DecreaseChargeOverTime()
+    private void SwitchOn()
+    {
+        light.enabled = true;
+        StartCoroutine(DecreaseChargeOverTime());
+    }
+
+    private void SwitchOff()
+    {
+        light.enabled = false;
+        StopAllCoroutines();
+    }
+
+    private IEnumerator DecreaseChargeOverTime()
     {
         while (_currentCharge > 0)
         {
@@ -50,6 +55,11 @@ public class Flashlight : MonoBehaviour
             yield return new WaitForSeconds(2f);
             _currentCharge -= 1f; // »змените шаг уменьшени€ зар€да по своему усмотрению
             Debug.Log("Current charge: " + _currentCharge);
+        }
+
+        if(_currentCharge  == 0)
+        {
+            light.enabled = false;
         }
     }
 }
