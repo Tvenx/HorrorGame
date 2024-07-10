@@ -59,7 +59,6 @@ public class Character : MonoBehaviour, IControllable
         {
             Debug.Log(_stamina.GetEnergy());
             _speed = _runSpeed;
-            _stamina.SpendEnergy(_energyToRun);
         }
     }
 
@@ -79,6 +78,18 @@ public class Character : MonoBehaviour, IControllable
         {
             _isMove = false;
         }
+
+        if (_speed == _runSpeed)
+        {
+            _stamina.SpendEnergy(_energyToRun);
+        }
+        else
+        {
+            _stamina.RestoreEnergy();
+        }
+
+        if (!_stamina.HasEnergy())
+         StopRun();
     }
 
     public bool IsMove()

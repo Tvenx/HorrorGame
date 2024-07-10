@@ -22,26 +22,15 @@ public class Stamina : MonoBehaviour
         _Energy = _maxEnergy;
     }
 
-    private void Update()
-    {
-        if (!_isSpendingEnergy)
-        {
-            RestoreEnergy();
-        }
-    }
-
     public void SpendEnergy(float _energyToSpend)
-    {
-        Debug.Log("тратим энергию");
-        if (_Energy > _minEnergy)
-        {
-            _Energy -= _energyToSpend * Time.deltaTime;
-        }
+    {    
+            Debug.Log("тратим энергию");    
+            _Energy -= _energyToSpend * Time.deltaTime;  
     }
 
-    private void RestoreEnergy()
-    {
-        _Energy += _energyRestoreStep * Time.deltaTime;
+    public void RestoreEnergy()
+    {   
+             _Energy += _energyRestoreStep * Time.deltaTime;   
     }
 
     public float GetEnergy()
@@ -51,11 +40,6 @@ public class Stamina : MonoBehaviour
 
     public bool HasEnergy()
     {
-        if(_Energy > _minEnergy)
-        {
-            return true;
-        }
-
-        return false;
+        return _Energy > 10;
     }
 }
