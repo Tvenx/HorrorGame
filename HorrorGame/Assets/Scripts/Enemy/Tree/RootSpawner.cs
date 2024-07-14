@@ -13,6 +13,8 @@ public class RootSpawner : MonoBehaviour
     public float nextSpawnTime;
     public Vector3 lastSpawnPosition;
 
+    private TreeHealth _treeHealth;
+
     private void Start()
     {
         nextSpawnTime = Time.time + spawnInterval;
@@ -21,6 +23,7 @@ public class RootSpawner : MonoBehaviour
 
     public void SpawnPrefab()
     {
+
         Vector3 spawnPosition = lastSpawnPosition;
         Vector3 direction = (playerTransform.position - spawnPosition).normalized;
 

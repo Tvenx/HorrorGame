@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 public class Flashlight : MonoBehaviour, Iusable
 {
     [SerializeField] private float _currentCharge;
-    private Light light;
+    private Light _light;
     private float _maxCharge = 100f;
     private bool switchValue;
 
@@ -13,9 +13,9 @@ public class Flashlight : MonoBehaviour, Iusable
     {
         _currentCharge = _maxCharge;
 
-        light = GetComponentInChildren<Light>();
+        _light = GetComponentInChildren<Light>();
 
-        switchValue = light.enabled;
+        switchValue = _light.enabled;
     }
 
     public void Use()
@@ -37,13 +37,13 @@ public class Flashlight : MonoBehaviour, Iusable
 
     private void SwitchOn()
     {
-        light.enabled = true;
+        _light.enabled = true;
         StartCoroutine(DecreaseChargeOverTime());
     }
 
     private void SwitchOff()
     {
-        light.enabled = false;
+        _light.enabled = false;
         StopAllCoroutines();
     }
 
@@ -59,7 +59,7 @@ public class Flashlight : MonoBehaviour, Iusable
 
         if(_currentCharge  == 0)
         {
-            light.enabled = false;
+            _light.enabled = false;
         }
     }
 }

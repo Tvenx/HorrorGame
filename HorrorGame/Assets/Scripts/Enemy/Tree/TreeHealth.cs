@@ -9,6 +9,8 @@ public class TreeHealth : MonoBehaviour, IHealth
     [SerializeField] private int _minHealth = 1;
 
     [SerializeField] private int _currentHealth;
+
+    private RootSpawner _rootSpawner;
     public int CurrentHealth
     {
         get { return _currentHealth; }
@@ -28,7 +30,7 @@ public class TreeHealth : MonoBehaviour, IHealth
 
     public void Kill()
     {
-        Debug.Log("вы были убиты!");
+        Debug.Log("ОНО было убито!");
         CurrentHealth = _minHealth - 1;
     }
 
