@@ -42,7 +42,7 @@ public class RootSpawner : MonoBehaviour
         StartCoroutine(DestroyAfterDelay(newPrefab, 6.0f));
     }
 
-    public IEnumerator SpawnInterval()
+    private IEnumerator SpawnInterval()
     {
         while (true)
         {
