@@ -290,7 +290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _walkSpeed: 2.5
   _runSpeed: 10
-  _energyToRun: 5
+  _energyToRun: 12
 --- !u!114 &36988348
 MonoBehaviour:
   m_ObjectHideFlags: 0
