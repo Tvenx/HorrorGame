@@ -1,3 +1,4 @@
+﻿using System.Collections;
 using UnityEngine;
 
 public class Character : MonoBehaviour, IControllable
@@ -7,9 +8,14 @@ public class Character : MonoBehaviour, IControllable
     [SerializeField] private float _runSpeed;
     [SerializeField] private float _energyToRun = 4;
 
+    [SerializeField] private float _crouchHeight;
+    [SerializeField] private float _crouchTime;
+    
     private CharacterController _characterController;
     private InteractSystem _interactSystem;
     private Stamina _stamina;
+    private bool _isCrouching = false;
+    private float _standHeight;
 
     private float velocity;
 
@@ -21,6 +27,7 @@ public class Character : MonoBehaviour, IControllable
         _interactSystem = GetComponentInChildren<InteractSystem>();
         _stamina = GetComponent<Stamina>();
 
+        _standHeight = _characterController.height;
         _speed = _walkSpeed;
     }
 
@@ -40,7 +47,38 @@ public class Character : MonoBehaviour, IControllable
 
     public void Crouch()
     {
-        Debug.Log("�������");
+       if(_isCrouching )
+        {
+            RaycastHit hit;
+            if (!Physics.Raycast(transform.position, Vector3.up, out hit, _crouchHeight + _crouchHeight/2))
+            {
+                Debug.Log("встаём");
+                _isCrouching = false;
+                StartCoroutine(SetHeight(_standHeight, _crouchTime));
+            }
+        }
+        else
+        {
+            Debug.Log("крадёмся");
+            _isCrouching = true;
+            StartCoroutine(SetHeight(_crouchHeight, _crouchTime));
+        }
+    }
+
+    private IEnumerator SetHeight(float targetHeight, float duration)
+    {
+        float time = 0f;
+        float startHeight = _characterController.height;
+
+        while (time < duration)
+        {
+            _characterController.Move(Vector3.zero);
+            float newHeight = Mathf.Lerp(startHeight, targetHeight, time / duration);
+            _characterController.height = newHeight;
+            time += Time.deltaTime;
+            yield return null;
+        }
+
     }
 
     public void Interact()
