@@ -110,7 +110,7 @@ public class Character : MonoBehaviour, IControllable
         if (_direction != Vector3.zero)
         {
             _isMove = true;
-            _characterController.Move(_direction * _speed * Time.deltaTime);
+            _characterController.Move(_direction * _speed * Time.fixedDeltaTime);
         }
         else
         {
