@@ -2099,6 +2099,7 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
 <<<<<<< HEAD
+<<<<<<< HEAD
     - target: {fileID: 845966073931227372, guid: f806351e487843649b71733e98a9cdbd, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -2108,10 +2109,15 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
 =======
+=======
+>>>>>>> 19a66f0af4fce3ebe6e41833ea82ffbd433a3539
     - target: {fileID: 864997458068734703, guid: f806351e487843649b71733e98a9cdbd, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+<<<<<<< HEAD
+>>>>>>> 19a66f0af4fce3ebe6e41833ea82ffbd433a3539
+=======
 >>>>>>> 19a66f0af4fce3ebe6e41833ea82ffbd433a3539
     - target: {fileID: 6624760370582169900, guid: f806351e487843649b71733e98a9cdbd, type: 3}
       propertyPath: m_Enabled
