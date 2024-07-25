@@ -62,7 +62,7 @@ public class PlayerInput : MonoBehaviour
         _controllable.Crouch();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         ReadMovement();
     }

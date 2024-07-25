@@ -14,6 +14,7 @@ public class Character : MonoBehaviour, IControllable
     private CharacterController _characterController;
     private InteractSystem _interactSystem;
     private Stamina _stamina;
+    private Rigidbody _rigidbody;
     private bool _isCrouching = false;
     private float _standHeight;
 
@@ -23,15 +24,16 @@ public class Character : MonoBehaviour, IControllable
 
     private void Awake()
     {
-        _characterController = GetComponent<CharacterController>();
+      _characterController = GetComponent<CharacterController>();
         _interactSystem = GetComponentInChildren<InteractSystem>();
         _stamina = GetComponent<Stamina>();
+        _rigidbody = GetComponent<Rigidbody>();
 
         _standHeight = _characterController.height;
         _speed = _walkSpeed;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         GravityFall();
     }
@@ -111,6 +113,8 @@ public class Character : MonoBehaviour, IControllable
         {
             _isMove = true;
             _characterController.Move(_direction * _speed * Time.deltaTime);
+           /* _rigidbody.MovePosition(transform.position + _direction * _speed * Time.deltaTime);*/
+            Debug.Log(_direction * _speed * Time.deltaTime);
         }
         else
         {
