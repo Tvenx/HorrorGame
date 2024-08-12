@@ -35,7 +35,6 @@ public class Item : MonoBehaviour, Iinteractable
 
     public void Use()
     {
-        Debug.Log("использовал");
         _usableItem.Use();
     }
 

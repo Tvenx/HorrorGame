@@ -1,13 +1,18 @@
 using UnityEngine;
 using System.Collections;
-using Unity.VisualScripting;
 
 public class Flashlight : MonoBehaviour, Iusable
 {
     [SerializeField] private float _currentCharge;
-    private Light _light;
+    [SerializeField] private float rayDistance = 10f; // Дистанция луча
     private float _maxCharge = 100f;
     private bool switchValue;
+
+    [SerializeField] private LayerMask _targetMask;
+
+    private Light _light;
+    public Transform rayOrigin; // Точка, из которой будет выпускаться луч
+
 
     private void Start()
     {
@@ -27,6 +32,7 @@ public class Flashlight : MonoBehaviour, Iusable
             if (switchValue == true)
             {
                 SwitchOn();
+                ShootRay();
             }
             else
             {
@@ -57,9 +63,24 @@ public class Flashlight : MonoBehaviour, Iusable
             Debug.Log("Current charge: " + _currentCharge);
         }
 
-        if(_currentCharge  == 0)
+        if (_currentCharge == 0)
         {
             _light.enabled = false;
+        }
+    }
+
+    void ShootRay()
+    {
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Enemy enemy = hit.transform.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.OnRayHit();
+            }
         }
     }
 }

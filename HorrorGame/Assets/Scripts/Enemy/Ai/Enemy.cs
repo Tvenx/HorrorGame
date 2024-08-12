@@ -20,7 +20,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float maxIdleTime;
     [SerializeField] private float idleTime;
 
-    [SerializeField] private float sightDistance;
     [SerializeField] private float catchDistance;
 
     [SerializeField] private float chaseTime;
@@ -30,6 +29,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float jumpscareTime;
 
     [SerializeField] private Transform player;
+    [SerializeField] private List<Transform> foodTargets = new List<Transform>();
+    [SerializeField] private Transform safePlace;
 
     private bool walking;
     private bool chasing;
@@ -120,22 +121,59 @@ public class Enemy : MonoBehaviour
 
     public void Chase()
     {
-        dest = player.position;
+        if (!chasing) return;
+
+        Transform target = null;
+        float closestDistance = float.MaxValue;
+
+        // Find the closest food target
+        foreach (Transform t in foodTargets)
+        {
+            if (t != null)
+            {
+                float distance = Vector3.Distance(t.position, _navAgent.transform.position);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    target = t;
+                }
+            }
+        }
+
+        // If no food targets are available, chase the player
+        if (target == null)
+        {
+            target = player;
+        }
+
+        dest = target.position;
         _navAgent.destination = dest;
         _navAgent.speed = chaseSpeed;
         aiAnim.ResetTrigger("walk");
         aiAnim.ResetTrigger("idle");
         aiAnim.SetTrigger("sprint");
-        float distance = Vector3.Distance(player.position, _navAgent.transform.position);
-        if (distance <= catchDistance)
+
+        float distanceToTarget = Vector3.Distance(target.position, _navAgent.transform.position);
+        if (distanceToTarget <= catchDistance)
         {
-            player.gameObject.SetActive(false);
+            target.gameObject.SetActive(false);
+            foodTargets.Remove(target);
             aiAnim.ResetTrigger("walk");
             aiAnim.ResetTrigger("idle");
             aiAnim.ResetTrigger("sprint");
             aiAnim.SetTrigger("jumpscare");
             StartCoroutine(deathRoutine());
             chasing = false;
+        }
+    }
+
+    private void MoveToSafePlace()
+    {
+        if (safePlace != null)
+        {
+            _navAgent.SetDestination(safePlace.position);
+            _navAgent.speed = chaseSpeed;
+            aiAnim.SetTrigger("run");
         }
     }
 
@@ -155,8 +193,18 @@ public class Enemy : MonoBehaviour
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target);
+
                     if (target.CompareTag("Player"))
                     {
+                        walking = false;
+                        StopCoroutine("stayIdle");
+                        StopCoroutine("chaseRoutine");
+                        StartCoroutine("chaseRoutine");
+                        chasing = true;
+                    }
+                    else if (target.CompareTag("Eat"))
+                    {
+                        foodTargets.Add(target); // Добавляем объект в список foodTargets
                         walking = false;
                         StopCoroutine("stayIdle");
                         StopCoroutine("chaseRoutine");
@@ -189,4 +237,20 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + viewAngleA * viewRadius);
         Gizmos.DrawLine(transform.position, transform.position + viewAngleB * viewRadius);
     }
+
+    public void OnRayHit()
+    {
+        Debug.Log("Враг получил попадание!");
+        StopChase();
+        MoveToSafePlace();
+    }
+
+    private void StopChase()
+    {
+        chasing = false;
+        _navAgent.ResetPath();
+        aiAnim.ResetTrigger("sprint");
+        aiAnim.SetTrigger("idle");
+    }
+
 }

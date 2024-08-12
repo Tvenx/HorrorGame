@@ -23,8 +23,7 @@ public class Stamina : MonoBehaviour
     }
 
     public void SpendEnergy(float _energyToSpend)
-    {    
-            Debug.Log("тратим энергию");    
+    {       
             _Energy -= _energyToSpend * Time.deltaTime;  
     }
 

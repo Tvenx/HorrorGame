@@ -95,7 +95,7 @@ public class Character : MonoBehaviour, IControllable
     {
         if (_stamina.HasEnergy())
         {
-            Debug.Log(_stamina.GetEnergy());
+            //Debug.Log(_stamina.GetEnergy());
             _speed = _runSpeed;
         }
     }
