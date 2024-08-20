@@ -5,6 +5,7 @@ public class AkatanusiLogeck : MonoBehaviour
 {
     [SerializeField] private float _increaseEating;
     [SerializeField] private GameObject _babyPrefab;
+    [SerializeField] private Transform safePlace;
 
     private bool isEating = false;
 
@@ -36,5 +37,5 @@ public class AkatanusiLogeck : MonoBehaviour
         }
     }
 
-
+   
 }

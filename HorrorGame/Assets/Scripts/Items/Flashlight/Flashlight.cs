@@ -76,11 +76,15 @@ public class Flashlight : MonoBehaviour, Iusable
 
         if (Physics.Raycast(ray, out hit))
         {
-            Enemy enemy = hit.transform.GetComponent<Enemy>();
-            if (enemy != null)
+            if (hit.transform.CompareTag("Enemy"))
             {
-                enemy.OnRayHit();
+                IRayCastHit rayCastHit = hit.transform.GetComponent<IRayCastHit>();
+                if (rayCastHit != null)
+                {
+                    rayCastHit.OnRayHit();
+                }
             }
         }
     }
+
 }

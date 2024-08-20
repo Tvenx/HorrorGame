@@ -87,4 +87,22 @@ public class Inventory : MonoBehaviour
             _currentItem = null;
         }
     }
+
+    public bool HasCurrentItem(string itemId)
+    {
+        if (_currentItem != null)
+        {
+            Item item = _currentItem.GetComponent<Item>();
+            return item != null && item.ID == itemId;
+        }
+        return false;
+    }
+
+    public void DropCurrentItem()
+    {
+        if (_currentItem != null)
+        {
+            DropItem();
+        }
+    }
 }

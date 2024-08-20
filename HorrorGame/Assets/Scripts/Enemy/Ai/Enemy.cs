@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
-public class Enemy : MonoBehaviour
+[RequireComponent(typeof(NavMeshAgent))]
+public class Enemy : MonoBehaviour,IRayCastHit
 {
-    [SerializeField]private NavMeshAgent _navAgent;
+    [SerializeField] private NavMeshAgent _navAgent;
+    [SerializeField] private Animator aiAnim;
 
     [SerializeField] private List<Transform> destinations;
-
-    [SerializeField] private Animator aiAnim;
 
     [Header("-----Properties-----")]
     [SerializeField] private float walkSpeed;
@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private float jumpscareTime;
 
-    [SerializeField] private Transform player;
+    [SerializeField] private Transform _player;
     [SerializeField] private List<Transform> foodTargets = new List<Transform>();
     [SerializeField] private Transform safePlace;
 
@@ -126,48 +126,45 @@ public class Enemy : MonoBehaviour
         Transform target = null;
         float closestDistance = float.MaxValue;
 
-        // Find the closest food target
-        foreach (Transform t in foodTargets)
+        // Check if player is in view
+        if (Vector3.Distance(_player.position, _navAgent.transform.position) <= viewRadius)
         {
-            if (t != null)
+            target = _player;
+        }
+        else
+        {
+            // Find the closest food target
+            foreach (Transform t in foodTargets)
             {
-                float distance = Vector3.Distance(t.position, _navAgent.transform.position);
-                if (distance < closestDistance)
+                if (t != null)
                 {
-                    closestDistance = distance;
-                    target = t;
+                    float distance = Vector3.Distance(t.position, _navAgent.transform.position);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        target = t;
+                    }
                 }
             }
         }
 
-        // If no food targets are available, chase the player
-        if (target == null)
+        if (target != null)
         {
-            target = player;
-        }
-
-        dest = target.position;
-        _navAgent.destination = dest;
-        _navAgent.speed = chaseSpeed;
-        aiAnim.ResetTrigger("walk");
-        aiAnim.ResetTrigger("idle");
-        aiAnim.SetTrigger("sprint");
-
-        float distanceToTarget = Vector3.Distance(target.position, _navAgent.transform.position);
-        if (distanceToTarget <= catchDistance)
-        {
-            target.gameObject.SetActive(false);
-            foodTargets.Remove(target);
+            _navAgent.destination = target.position;
+            _navAgent.speed = chaseSpeed;
             aiAnim.ResetTrigger("walk");
             aiAnim.ResetTrigger("idle");
-            aiAnim.ResetTrigger("sprint");
-            aiAnim.SetTrigger("jumpscare");
-            StartCoroutine(deathRoutine());
-            chasing = false;
+            aiAnim.SetTrigger("sprint");
+
+            if (Vector3.Distance(_navAgent.transform.position, target.position) <= catchDistance)
+            {
+                // Add logic for catching the player or food
+            }
         }
     }
 
-    private void MoveToSafePlace()
+
+    public void MoveToSafePlace()
     {
         if (safePlace != null)
         {
@@ -237,20 +234,16 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + viewAngleA * viewRadius);
         Gizmos.DrawLine(transform.position, transform.position + viewAngleB * viewRadius);
     }
-
-    public void OnRayHit()
+    void IRayCastHit.OnRayHit()
     {
         Debug.Log("Враг получил попадание!");
         StopChase();
         MoveToSafePlace();
     }
-
-    private void StopChase()
+    public void StopChase()
     {
         chasing = false;
         _navAgent.ResetPath();
-        aiAnim.ResetTrigger("sprint");
         aiAnim.SetTrigger("idle");
     }
-
 }
